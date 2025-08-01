@@ -32,6 +32,8 @@
 #' @export
 #'
 #' @examples
+#' get_recent_slr_rate(park = "ASIS")
+#'
 get_recent_slr_rate <- function(park, nauset = FALSE, start_year = 2001, end_year = 2019) {
 
     slr_data <- get_sea_level_data(park = park, nauset = nauset, start_year = start_year, end_year = end_year)

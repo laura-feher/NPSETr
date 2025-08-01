@@ -28,8 +28,6 @@
 #'   (millimeters) by the end of each 10-year period between 2005 to 2150 based
 #'   on Sweet et al. 2022.
 #'
-#' @note Right now this only works for parks in NCBN, NCRN, and NETN
-#'
 #' @import dplyr
 #' @importFrom readr read_csv
 #'
