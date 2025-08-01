@@ -125,3 +125,68 @@ plot_rate_labels <- function(data, level, groups, data_type) {
                r2p_label = if_else(rate_p >= 0.05, r2p_label_ns, r2p_label_sig)
         )
 }
+
+noaa_tide_gauges <- function(park, nauset) {
+
+    valid_parks <- c("COLO", "ASIS", "GWMP", "NACE", "GATE", "FIIS", "CACO", "BOHA", "ACAD", "BISC", "SARI", "VIIS", "CANA", "CAHA", "CALO", "CUIS", "FOFR", "FOMA", "FOPU", "TIMU")
+
+    if (!park %in% valid_parks) {
+        stop(park, " is an invalid park code. Valid park codes are:\n\t",
+             paste(valid_parks, collapse = ", "))
+    }
+
+    if (park == "COLO") {
+        station_num <- 8638610
+        PSMSL_Site <- "SEWELLS_POINT"
+    } else if (park == "ASIS") {
+        station_num <- 8570283
+        PSMSL_Site <- "OCEAN_CITY_INLET"
+    } else if (park == "GWMP" | park == "NACE") {
+        station_num <- 8594900
+        PSMSL_Site <- "WASHINGTON_DC"
+    } else if (park == "GATE" | park == "FIIS") {
+        station_num <- 8531680
+        PSMSL_Site <- "SANDY_HOOK"
+    } else if (park == "BOHA" | (park == "CACO" & !nauset)) {
+        station_num <- 8443970
+        PSMSL_Site <- "BOSTON"
+    } else if (park == "ACAD") {
+        station_num <- 8413320
+        PSMSL_Site <- "BAR_HARBOR"
+    } else if (park == "CACO" & nauset) {
+        station_num <- 8449130 # used Nantucket for CACO-Nauset because the Chatham NOAA gauge didn't have a published SLR rate
+        PSMSL_Site <- "NANTUCKET_ISLAND"
+    } else if (park == "BISC") {
+        station_num <- 8723214
+        PSMSL_Site <- "VIRGINIA_KEY"
+    } else if (park == "SARI") {
+        station_num <- 9751401 # used Lime Tree Bay for SARI because the Christiansted NOAA gauge didn't have a published SLR rate
+        PSMSL_Site <- "LIME_TREE_BAY"
+    } else if (park == "VIIS") {
+        station_num <- 9751639 # used Charlotte Amalie for VIIS because the Lameshur Bay NOAA gauge didn't have a published SLR rate
+        PSMSL_Site <- "CHARLOTTE_AMALIE"
+    } else if (park == "CANA") {
+        station_num <- 8721604
+        PSMSL_Site <- "TRIDENT_PIER"
+    } else if (park == "CAHA") {
+        station_num <- 8652587 # used Oregon Inlet for long-term rate at CAHA because the Cape Hatteras NOAA gauge didn't have a published SLR rate
+        PSMSL_Site <- "CAPE_HATTERAS"
+    } else if (park == "CALO") {
+        station_num <- 8656483
+        PSMSL_Site <- "BEAUFORT"
+    } else if (park == "CUIS" | park == "FOFR") {
+        station_num <- 8720030 # used Fernandina for CUIS and FOFR because the Kings Bay NOAA gauge didn't have a published SLR rate
+        PSMSL_Site <- "FERNANDINA_BEACH"
+    } else if (park == "FOMA" | park == "TIMU") {
+        station_num <- 8720218
+        PSMSL_Site <- "MAYPORT (BAR PILOTS DOCK)"
+    } else if (park == "FOPU") {
+        station_num <- 8670870
+        PSMSL_Site <- "FORT_PULASKI"
+    } else {
+        stop("Please supply a valid 4 letter park code")
+    }
+
+    return(list("station_num" = station_num, "PSMSL_Site" = PSMSL_Site))
+
+}

@@ -50,6 +50,6 @@ test_plot_rate_comps_set_site_rates_chr_col <- calc_linear_rates(test_set_data, 
     mutate(rate = as.character(rate))
 saveRDS(test_plot_rate_comps_set_site_rates_chr_col, here::here("tests", "testthat", "testdata", "test_plot_rate_comps_set_site_rates_chr_col.rds"))
 
-test_write_slr_data <- get_sea_level_data(park = "ASIS", trend_start_year = "2001", trend_end_year = "2019")
+test_write_slr_data <- get_sea_level_data(park = "ASIS", start_year = "2001", end_year = "2019")
 saveRDS(test_write_slr_data, here::here("tests", "testthat", "testdata", "test_write_slr_data.rds"))
 write_slr_data(test_write_slr_data, dest_folder = here::here("tests", "testthat", "testdata"))

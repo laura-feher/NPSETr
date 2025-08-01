@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 The goal of NPSETr is to simplify the calculation of cumulative rates of surface elevation change and vertical accretion from the National Park Services' Surface Elevation Table (SET) data.
 
-This package is based on the [SETr](https://github.com/swmpkim/SETr) package developed by Kim Cressman for the National Estuarine Research Reserve System (https://nerrssciencecollaborative.org/project/Cressman18).
+This package is based on the [SETr](https://github.com/swmpkim/SETr) package developed by Kim Cressman for the National Estuarine Research Reserve System (<https://nerrssciencecollaborative.org/project/Cressman18>).
 
 ## Installation
 
@@ -224,34 +224,33 @@ plot_rate_comps(rates = example_rates, level = "station")
 
 ## Get park specific SLR data and rates {#get-park-specific-slr-data-and-rates}
 
-The function `get_sea_level_data()` can be used to get rates of sea-level rise from the NOAA tide gauge that is closest to a specific park.
+There are 5 functions for getting current/predicted future sea-level data and rates based on data from the NOAA gauge that is closest to each park:
 
-The function returns a list with 2 data frames:
+-   `get_sea_level_data()` can be used to download sea-level data from the NOAA tide gauge that is closest to a specific park.
 
--   'slr_data': the relative sea-level data downloaded from the NOAA tides and currents website
+-   `get_long_slr_rate()` gets the current park-specific "long-term" rate of sea-level rise published by NOAA (<https://tidesandcurrents.noaa.gov/sltrends/>).
 
--   'slr_rate': provides the calculated rate of sea-level rise, standard error of the SLR rate, lower confidence interval, upper, and minimum and maximum year of data used for calculating SLR.
+-   `get_recent_slr_rate()` calculates a recent rate of sea-level for a specified time period. Defaults to the most recent tidal epoch (2001-2019).
 
-Note that you can access each data frame in the list using `$` or `[]` notation.
+-   `get_future_sea_level_data()` gets future predicted sea-level data based on calculations provided in Sweet et al. 2022 for the 5th National Climate Assessment.
 
-```{r message=FALSE, warning=FALSE}
-ASIS_sea_level <- get_sea_level_data("ASIS")
-
-head(ASIS_sea_level$slr_data)
-
-head(ASIS_sea_level$slr_rate)
-```
-
-You can also supply a start year and/or end year if you want to limit the calculation of SLR to a specific time frame. This could be useful for calculating a SLR rate from the most recent tidal datum:
+-   `get_future_slr_rate()` calculates future predicted sea-level rise rates based on calculations provided in Sweet et al. 2022 for the 5th National Climate Assessment.
 
 ```{r message=FALSE, warning=FALSE}
-ASIS_sea_level_2001_2019 <- get_sea_level_data("ASIS",
-                                               trend_start_year = 2001,
-                                               trend_end_year = 2019)
+get_sea_level_data("ASIS") %>%
+    head(2)
 
-head(ASIS_sea_level_2001_2019$slr_data)
+get_long_slr_rate("ASIS") %>%
+    head(2)
 
-head(ASIS_sea_level_2001_2019$slr_rate)
+get_recent_slr_rate("ASIS") %>%
+    head(2)
+
+get_future_sea_level_data("ASIS") %>%
+    head(2)
+
+get_future_slr_rate("ASIS") %>%
+    head(2)
 ```
 
 ## Save SET/MH data, cumulative change, or rates of change to file {#save-setmh-data-cumulative-change-or-rates-of-change-to-file}
@@ -274,14 +273,4 @@ write_set_mh_data(
     overwrite = TRUE
 )
 # this is equivalent to "C:/Documents/SET_data"
-```
-
-## Save SLR data & rates to file {#save-slr-data-rates-to-file}
-
-The function `write_slr_data()` can be used to write the park-specific sea-level data and the rate of sea-level rise produced by `get_sea_level_data()` to separate csv files.
-
-The file names will be the name of the data frame supplied to `data` suffixed with "\_slr_data" or "\_slr_rate" and the current date e.g. "asis_slr_data_2025-06-05.csv" and "asis_slr_rate_2025-06-05.csv". The csv will be saved to the current working directory by default.
-
-```{r eval=FALSE, message=FALSE, warning=FALSE, echo=TRUE}
-write_slr_data(park = "COLO")
 ```
