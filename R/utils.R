@@ -190,3 +190,7 @@ noaa_tide_gauges <- function(park, nauset) {
     return(list("station_num" = station_num, "PSMSL_Site" = PSMSL_Site))
 
 }
+
+.onLoad <- function(libname, pkgname) {
+    data("future_slr_projections_sweet_2022", package = pkgname, envir = parent.env(environment()))
+}
