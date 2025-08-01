@@ -45,9 +45,10 @@ write_slr_data <- function(data, dest_folder = NULL, create_folders = FALSE, ove
 
     file_name <- deparse(substitute(data))
     current_date <- Sys.Date()
+    object_type <- unique(data$object)[1]
 
     # remove any nested or list columns created with calc_linear rates
-    slr_rate <- data$slr_rate %>%
+    dat <- data %>%
         select(-where(is.list))
 
     if (is.null(dest_folder)) {
@@ -56,8 +57,19 @@ write_slr_data <- function(data, dest_folder = NULL, create_folders = FALSE, ove
         dest_folder <- normalizePath(dest_folder, mustWork = FALSE)
     }
 
-    file_path_slr_data <- file.path(dest_folder, paste0(file_name, "_slr_data_", current_date, ".csv"))
-    file_path_slr_rate <- file.path(dest_folder, paste0(file_name, "_slr_rate_", current_date, ".csv"))
+    if (object_type == "sea level data") {
+        file_type_string <- "_sea_level_data_"
+    } else if (object_type == "future sea level data") {
+        file_type_string <- "_future_sea_level_data_"
+    } else if (object_type == "long term slr rate") {
+        file_type_string <- "_longterm_slr_rate_"
+    } else if (object_type == "recent slr rate") {
+        file_type_string <- "_recent_slr_rate_"
+    } else if (object_type == "future slr rate") {
+        file_type_string <- "_future_slr_rate_"
+    }
+
+    file_path <- file.path(dest_folder, paste0(file_name, file_type_string, current_date, ".csv"))
 
     if (!dir.exists(dest_folder)) {
         if (create_folders == TRUE) {
@@ -67,15 +79,12 @@ write_slr_data <- function(data, dest_folder = NULL, create_folders = FALSE, ove
         }
     }
 
-    if (!overwrite & any(file.exists(c(file_path_slr_data, file_path_slr_rate)))) {
+    if (!overwrite & any(file.exists(c(file_path)))) {
         stop("Saving data in the folder provided would overwrite existing data. To automatically overwrite existing data, set overwrite to TRUE.")
     }
 
-    message(paste("Writing", file_path_slr_data))
-    suppressMessages(readr::write_csv(data$slr_data, file_path_slr_data, na = "", append = FALSE, col_names = TRUE))
-
-    message(paste("Writing", file_path_slr_rate))
-    suppressMessages(readr::write_csv(slr_rate, file_path_slr_rate, na = "", append = FALSE, col_names = TRUE))
+    message(paste("Writing", file_path))
+    suppressMessages(readr::write_csv(dat, file_path, na = "", append = FALSE, col_names = TRUE))
 
     message("Done writing to CSV")
 
