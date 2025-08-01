@@ -42,15 +42,7 @@ get_future_sea_level_data <- function (park, nauset = FALSE, scenario_percentile
 
     noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
 
-    suppressMessages(data <- read_csv(
-        here::here(
-            "data-raw",
-            "Sea_Level_Rise_Datasets_2022",
-            "SLR_TF U.S. Sea Level Projections.csv"
-        ),
-        skip = 17,
-        show_col_types = FALSE,
-        col_select = c("PSMSL Site", "PSMSL ID", "NOAA Name", "NOAA ID", "Scenario", "RSL2005 (cm)":"RSL2150 (cm)")) %>%
+    suppressMessages(data <- future_slr_projections_sweet_2022 %>%
         filter(`PSMSL Site` == noaa_ids$PSMSL_Site) %>%
         mutate(park_code = park,
                slr_by_2100_m = as.numeric(str_sub(Scenario, 1, 3)),
