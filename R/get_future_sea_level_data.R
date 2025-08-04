@@ -29,6 +29,7 @@
 #'   on Sweet et al. 2022.
 #'
 #' @import dplyr
+#' @import stringr
 #' @importFrom readr read_csv
 #'
 #' @export
