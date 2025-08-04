@@ -27,7 +27,12 @@
 #' @seealso [get_sea_level_data()]
 #'
 #' @import dplyr
+#' @import broom.mixed
 #' @importFrom readr read_csv
+#' @importFrom tidyr unnest
+#' @importFrom nlme gls
+#' @importFrom nlme corAR1
+#' @importFrom nlme intervals
 #'
 #' @export
 #'
@@ -41,11 +46,14 @@ get_recent_slr_rate <- function(park, nauset = FALSE, start_year = 2001, end_yea
     suppressWarnings(data <- slr_data %>%
         group_by(park_code, station_num) %>%
         nest(data = everything(.)) %>%
-        mutate(lm_mod = map(data, ~lm(Monthly_MSL_mm ~ yr, data = .x)),
-               tidied = map(lm_mod, broom::tidy),
-               glanced = map(lm_mod, broom::glance)) %>%
-        unnest(tidied, glanced) %>%
-        mutate(object_type = "recent slr rate"))
+        mutate(gls_mod = map(data, ~nlme::gls(Monthly_MSL_mm ~ yr, data = .x, correlation = nlme::corAR1())),
+               tidied = map(gls_mod, broom.mixed::tidy),
+               glanced = map(gls_mod, broom.mixed::glance),
+               int = map(gls_mod, ~nlme::intervals(.x, levels = 0.95))) %>%
+        tidyr::unnest(tidied, glanced) %>%
+        mutate(object_type = "recent slr rate",
+               confint = estimate - int[[1]][[1]][[2]]))
 
     return(data)
 }
+
