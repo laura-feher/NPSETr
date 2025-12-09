@@ -4,16 +4,20 @@
 \alias{calc_change_cumu}
 \title{Calculate station- or site-level cumulative change for SET or MH data}
 \usage{
-calc_change_cumu(data, level = "station")
+calc_change_cumu(data, level = "station", override_site_corrections = FALSE)
 }
 \arguments{
-\item{data}{data frame. A data frame of raw SET or MH data. See details
-below for requirements.}
+\item{data}{data frame. A data frame of raw SET or MH data. See details below
+for requirements.}
 
-\item{level}{string (optional). Level at which to calculate rates of
-surface elevation change or vertical accretion. One of:
+\item{level}{string (optional). Level at which to calculate rates of surface
+elevation change or vertical accretion. One of:
 * `"station"`: (default) station-level rates of surface elevation change.
 * `"site"`: site-level rates of surface elevation change.}
+
+\item{override_site_corrections}{logical (optional). If TRUE, don't use the
+site groupings specified in utils.R since these are specific to the USGS
+project.}
 }
 \value{
 For SET data, returns a data frame of station- or site-level
