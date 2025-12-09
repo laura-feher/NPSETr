@@ -47,7 +47,7 @@
 #'     group_by(set_type) %>%
 #'     calc_linear_rates(., level = "site")
 #'
-calc_linear_rates <- function(data, level = "station"){
+calc_linear_rates <- function(data, level = "station", override_site_corrections = FALSE){
 
     # determine if the data is SET or MH
     data_type <- detect_data_type(data)
@@ -58,11 +58,17 @@ calc_linear_rates <- function(data, level = "station"){
 
         # use linear regression to get a rate of change for each station
         linear_rates_set <- {if (level == "station")
-            calc_change_cumu(data, level = "station") %>% # first calculate cumulative change for each station
+            { if(override_site_corrections == FALSE)
+                calc_change_cumu(data, level = "station")
+                else
+                    calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>% # first calculate cumulative change for each station
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
 
             else if (level == "site")
-                calc_change_cumu(data, level = "site") %>%
+                { if(override_site_corrections == FALSE)
+                    calc_change_cumu(data, level = "site")
+                    else
+                        calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 
@@ -98,15 +104,20 @@ calc_linear_rates <- function(data, level = "station"){
 
         return(linear_rates_set)
 
-    }
-    else if (data_type == "MH"){
+    } else if (data_type == "MH"){
 
         # first calculate cumulative change for each station
         linear_rates_mh <- {if (level == "station")
-            calc_change_cumu(data, level = "station") %>%
+            { if(override_site_corrections == FALSE)
+                calc_change_cumu(data, level = "station")
+                else
+                    calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
             else if (level == "site")
-                calc_change_cumu(data, level = "site") %>%
+                { if(override_site_corrections == FALSE)
+                    calc_change_cumu(data, level = "site")
+                    else
+                        calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 
