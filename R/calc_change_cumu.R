@@ -80,7 +80,7 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
 
     if (data_type == "SET") {
 
-        change_cumu_set <- data %>%
+        change_cumu_set <- suppressMessages(data %>%
             # apply proper station groupings for NCBN data
             { if(override_site_corrections == FALSE)
                 mutate(.,site_name = correct_site_groups(station_code = station_code, site_name = site_name))
@@ -111,13 +111,15 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
             summarize(mean_cumu = mean(mean_value, na.rm = TRUE),
                       sd_cumu = sd(mean_value, na.rm = TRUE),
                       se_cumu = sd(mean_value, na.rm = TRUE)/sqrt(length(!is.na(mean_value)))) %>%
-            mutate(data_type = "SET") %>%
+            mutate(data_type = "SET",
+                   first_date = event_date_UTC[event_date_UTC == min(event_date_UTC[!is.na(mean_cumu)])], # convert dates to decimal year since first date
+                   date_num = as.numeric(event_date_UTC - first_date)/365.25)) %>%
 
             {if (level == "station")
                 .
                 else if (level == "site")
                     # average cumulative station-level change up to the site-level
-                    group_by(., network_code, park_code, site_name, .add = TRUE) %>%
+                    suppressMessages(group_by(., network_code, park_code, site_name, .add = TRUE) %>%
                     drop_groups2(., event_date_UTC) %>%
                     drop_groups2(., station_code) %>%
                     arrange(network_code, park_code, site_name, event_date_UTC) %>%
@@ -132,14 +134,16 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
                     summarize(mean_cumu = mean(mean_value, na.rm = TRUE),
                               sd_cumu = sd(mean_value, na.rm = TRUE),
                               se_cumu = sd(mean_value, na.rm = TRUE)/sqrt(length(!is.na(mean_value)))) %>%
-                    mutate(data_type = "SET")
+                    mutate(data_type = "SET",
+                           first_date = event_date_UTC[event_date_UTC == min(event_date_UTC[!is.na(mean_cumu)])], # convert dates to decimal year since first date
+                           date_num = as.numeric(event_date_UTC - first_date)/365.25))
             }
 
         return(change_cumu_set)
 
     } else if (data_type == "MH"){
 
-        change_cumu_mh <- data %>%
+        change_cumu_mh <- suppressMessages(data %>%
             # apply proper station groupings for NCBN data
             { if(override_site_corrections == FALSE)
                 mutate(.,site_name = correct_site_groups(station_code = station_code, site_name = site_name))
@@ -190,13 +194,14 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
             mutate(previous_plot_group_cumu = replace(mean_cumu, established_date != group_min_first_date, NA)) %>%
             fill(previous_plot_group_cumu) %>%
             mutate(mean_cumu = if_else(established_date != group_min_first_date, mean_cumu + previous_plot_group_cumu, mean_cumu),
-                   data_type = "MH") %>%
+                   data_type = "MH",
+                   date_num = as.numeric(event_date_UTC - first_date)/365.25)) %>% # convert dates to decimal year since first date
 
             {if (level == "station")
                 .
                 else if (level == "site")
                     # average the station-level measurements up to the site-level
-                    group_by(., network_code, park_code, site_name, .add = TRUE) %>%
+                    suppressMessages(group_by(., network_code, park_code, site_name, .add = TRUE) %>%
                     drop_groups2(., event_date_UTC) %>%
                     drop_groups2(., station_code) %>%
                     arrange(network_code, park_code, site_name, event_date_UTC) %>%
@@ -225,7 +230,8 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
                               se_cumu = sd(mean_value, na.rm = TRUE)/sqrt(length(!is.na(mean_value))),
                               first_date = min(group_min_first_date)) %>%
                     mutate(mean_cumu = if_else(is.nan(mean_cumu), NA_real_, mean_cumu),
-                           data_type = "MH")
+                           data_type = "MH",
+                           date_num = as.numeric(event_date_UTC - first_date)/365.25)) # convert dates to decimal year since first date
 
             }
 
