@@ -101,7 +101,7 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
 
             # average cumulative pin change up to the arm-level
             group_by(network_code, park_code, site_name, station_code, SET_direction, event_date_UTC, .add = TRUE) %>%
-            drop_groups2(., pin_position) %>%
+            drop_groups2(., pin_position) %>% # Use drop_groups2 to only drop this specific group and preserve any user specified groups
             summarize(mean_cumu = mean(cumu, na.rm = TRUE)) %>%
 
             #average cumulative arm-level change up to the station-level
@@ -158,7 +158,7 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
 
             # average the core measurements from each plot up to the station-level
             group_by(network_code, park_code, site_name, station_code, event_date_UTC, established_date, .add = TRUE) %>%
-            drop_groups2(., marker_horizon_name) %>%
+            drop_groups2(., marker_horizon_name) %>% # Use drop_groups2 to only drop this specific group and preserve any user specified groups
             summarise(mean_cumu = mean(cumu, na.rm = TRUE),
                       sd_cumu = sd(cumu, na.rm = TRUE),
                       se_cumu = sd(cumu, na.rm = TRUE)/sqrt(length(!is.na(cumu)))) %>%
@@ -169,6 +169,9 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
             drop_groups2(., established_date) %>%
             mutate(first_date = event_date_UTC[event_date_UTC == min(event_date_UTC[!is.na(mean_cumu)])],
                    first_date_match = if_else(first_date == established_date, "y", "n")) %>%
+
+            { . ->> detect_replacement_mh} %>% # get intermediate df that shows if there any replacement MHs
+
             group_modify(~{
                 if(all(.x$first_date_match == "y")) # if established_date = first row, do nothing
                     .x
@@ -234,6 +237,11 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
                            date_num = as.numeric(event_date_UTC - first_date)/365.25)) # convert dates to decimal year since first date
 
             }
+
+        # if any replacement MH were detected, print a message about the date assumption
+        if(any(detect_replacement_mh$first_date_match == "n")) {
+            message("Replacement marker horizons detected. Note that calc_change_cumu() assumes that all MH at a station/site were replaced on the same date. If this is not the case, you may need to transform your MH data to account for replacement MHs prior to use with the functions in this package.")
+        }
 
         return(change_cumu_mh)
     }
