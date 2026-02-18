@@ -90,7 +90,7 @@ calc_change_cumu <- function(data, level = "station", override_site_corrections 
             # convert to standardized pin heights to account for 6" extensions used at some of these networks' sites
             group_by(., network_code, park_code, site_name, station_code, SET_direction, pin_position, .add = TRUE) %>%
             filter(!is.na(pin_height_mm)) %>%
-            mutate(pin_height_mm = if_else(network_code %in% c("NCBN", "NCRN", "NETN") & !is.na(SET_offset_mm) & !is.na(pin_length_mm),
+            mutate(pin_height_mm = if_else(network_code %in% c("NCBN", "NCRN", "NETN", "SFCN") & !is.na(SET_offset_mm) & !is.na(pin_length_mm),
                                            1000 + (SET_offset_mm-(pin_length_mm - pin_height_mm)),
                                            pin_height_mm)) %>%
 
