@@ -40,7 +40,10 @@ Imports:
     tidyr,
     tibble,
     stringr,
-    NPSutils
+    NPSutils,
+    broom.mixed
+    ggnewscale,
+    rxode2
 Suggests: 
     testthat (>= 2.1.0)
 URL: https://github.com/laura-feher/NPSETr
