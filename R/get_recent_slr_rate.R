@@ -24,6 +24,21 @@
 #'   calculated using the sea-level data from the nearest NOAA tide gauge for
 #'   the specified time period.
 #'
+#' @references Moon, J.A., Feher, L.C., Lane, T.C., Vervaeke, W.C., Osland,
+#'   M.J., Head, D.M., Chivoiu, B.C., Stewart, D.R., Johnson, D.J., Grace, J.B.,
+#'   and Metzger, K.L., 2022. Surface elevation change dynamics in coastal
+#'   marshes along the Northwestern Gulf of Mexico: Anticipating effects of
+#'   rising sea-level and intensifying hurricanes. Wetlands
+#'   42(5):49.(https://doi.org/10.1007/s13157-022-01565-3)
+#'
+#' @references Chivoiu, B., Osland, M.J., Collini, R., Martin, S., Tirpak, J.,
+#'   and Wilson, B., 2020. Local sea level rise information sheets for Texas,
+#'   Louisiana, Mississippi, Alabama and Florida: Northern Gulf of Mexico
+#'   Sentinel Site Cooperative, U.S. Geological Survey and U.S. Fish and
+#'   Wildlife Service: Mississippi-Alabama Sea Grant Consortium,
+#'   (https://placeslr.org/our-products/federally-managed-lands-two-pagers/)
+#'
+#'
 #' @seealso [get_sea_level_data()]
 #'
 #'
