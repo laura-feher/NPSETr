@@ -109,14 +109,14 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
             point_outline_color <- "tomato3"
         }
 
-        ggplot(df, aes(x = event_date_UTC, y = mean_cumu)) +
-            geom_line(color = line_color) +
-            # geom_smooth(formula = y~x, se = FALSE, method = "lm", color = smooth_color, linewidth = 1) +
-            geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
-            geom_point(shape = 21, fill = point_fill_color, color = point_outline_color, size = pointsize, alpha = 0.9) +
-            facet_wrap(~grouping, ncol = columns, scales = scales) +
-            labs(title = paste0(title_lab, level), x = "Date", y = y_lab) +
-            theme_classic()
+        ggplot2::ggplot(df, aes(x = event_date_UTC, y = mean_cumu)) +
+            ggplot2::geom_line(color = line_color) +
+            # ggplot2::geom_smooth(formula = y~x, se = FALSE, method = "lm", color = smooth_color, linewidth = 1) +
+            ggplot2::geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
+            ggplot2::geom_point(shape = 21, fill = point_fill_color, color = point_outline_color, size = pointsize, alpha = 0.9) +
+            ggplot2::facet_wrap(~grouping, ncol = columns, scales = scales) +
+            ggplot2::labs(title = paste0(title_lab, level), x = "Date", y = y_lab) +
+            ggplot2::theme_classic()
     }
 
     if (!is.null(SET_data) & is.null(MH_data)) {
@@ -148,8 +148,8 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                     set_rates <- plot_rate_labels(data = SET_data, level = level, groups = groups, data_type = data_type)
 
                     p +
-                        geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                        geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
+                        ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                        ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
                 }
 
             } else if (level == "site") {
@@ -173,8 +173,8 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                     set_rates <- plot_rate_labels(data = SET_data, level = level, groups = groups, data_type = data_type)
 
                     p +
-                        geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                        geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
+                        ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                        ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
                 }
             }
         }
@@ -207,8 +207,8 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                     mh_rates <- plot_rate_labels(data = MH_data, level = level, groups = groups, data_type = data_type)
 
                     p +
-                        geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                        geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
+                        ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                        ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
                 }
 
             } else if (level == "site") {
@@ -232,8 +232,8 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                     mh_rates <- plot_rate_labels(data = MH_data, level = level, groups = groups, data_type = data_type)
 
                     p +
-                        geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                        geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
+                        ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                        ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2)
                 }
             }
         }
@@ -256,12 +256,12 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
             SET_MH_base_plot <- function(df) {
 
                 suppressWarnings(
-                    ggplot(df, aes(x = event_date_UTC, y = mean_cumu, group = data_type)) +
-                        geom_line(aes(color1 = data_type)) +
-                        # geom_smooth(aes(color2 = data_type), formula = y~x, se = FALSE, method = 'lm', linewidth = 1) +
-                        geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
-                        geom_point(aes(fill = data_type, color3 = data_type), shape = 21, size = pointsize, alpha = 0.9) +
-                        facet_wrap(~grouping, ncol = columns, scales = scales) +
+                    ggplot2::ggplot(df, aes(x = event_date_UTC, y = mean_cumu, group = data_type)) +
+                        ggplot2::geom_line(aes(color1 = data_type)) +
+                        # gggplot2::eom_smooth(aes(color2 = data_type), formula = y~x, se = FALSE, method = 'lm', linewidth = 1) +
+                        ggplot2::geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
+                        ggplot2::geom_point(aes(fill = data_type, color3 = data_type), shape = 21, size = pointsize, alpha = 0.9) +
+                        ggplot2::facet_wrap(~grouping, ncol = columns, scales = scales) +
                         ggh4x::scale_listed(scalelist = list(
                             scale_colour_manual(values = c('lightsteelblue4', 'indianred4'), aesthetics = "color1", breaks = c("SET", "MH")),
                             # scale_colour_manual(values = c('steelblue4', 'tomato4'), aesthetics = "color2", breaks = c("SET", "MH")),
@@ -269,9 +269,9 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                             scale_fill_manual(values = c('lightsteelblue1', 'indianred1'), breaks = c("SET", "MH"))
                         # ), replaces = c("color", "color", "color", "fill")) +
                         ), replaces = c("color", "color", "fill")) +
-                        labs(title = paste0('Cumulative surface elevation change and\nvertical accretion by ', level), x = 'Date', y = 'Cumulative surface elevation change and\nvertical accretion (mm)') +
-                        theme_classic() +
-                        theme(
+                        ggplot2::labs(title = paste0('Cumulative surface elevation change and\nvertical accretion by ', level), x = 'Date', y = 'Cumulative surface elevation change and\nvertical accretion (mm)') +
+                        ggplot2::theme_classic() +
+                        ggplot2::theme(
                             legend.title = element_blank()
                         )
                 )
@@ -322,10 +322,10 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                             mutate(data_type = "MH")
 
                         p +
-                            geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                            geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2.1) +
-                            geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 6) +
-                            geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.15, vjust = 4.9)
+                            ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                            ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2.1) +
+                            ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 6) +
+                            ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.15, vjust = 4.9)
                     }
                 }
 
@@ -374,10 +374,10 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                             mutate(data_type = "MH")
 
                         p +
-                            geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
-                            geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2.1) +
-                            geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 6) +
-                            geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.15, vjust = 4.9)
+                            ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 1.5) +
+                            ggplot2::geom_text(data = set_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.2, vjust = 2.1) +
+                            ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = rate_label), hjust = -0.1, vjust = 6) +
+                            ggplot2::geom_text(data = mh_rates, aes(x = structure(-Inf, class = "Date"), y = Inf, label = r2p_label), parse = T, hjust = -0.15, vjust = 4.9)
                     }
                 }
             }

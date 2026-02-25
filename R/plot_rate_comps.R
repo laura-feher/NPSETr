@@ -110,16 +110,16 @@ plot_rate_comps <- function(data = NULL, rates = NULL, level = "station"){
         rates_data <- rates_data %>%
             tidyr::unite("grouping", all_of(groups), remove = FALSE)
 
-        ggplot(data = rates_data, aes(x = rate, y = grouping)) +
-            geom_vline(aes(xintercept = 0), color = "gray70", linetype = "dashed") +
-            geom_errorbar(aes(y = grouping, xmin = rate - rate_se, xmax = rate + rate_se), color = "gray55", linewidth = 1) +
-            geom_point(size = 3, color = "red3") +
+        ggplot2::ggplot(data = rates_data, aes(x = rate, y = grouping)) +
+            ggplot2::geom_vline(aes(xintercept = 0), color = "gray70", linetype = "dashed") +
+            ggplot2::geom_errorbar(aes(y = grouping, xmin = rate - rate_se, xmax = rate + rate_se), color = "gray55", linewidth = 1) +
+            ggplot2::geom_point(size = 3, color = "red3") +
             {if(raw_data_type == "SET")
-                labs(title = "Rates of surface elevation change ± 1 standard error (mm/yr)", x = "Rate of surface elevation change (mm/yr)", y = "Station")
+                ggplot2::labs(title = "Rates of surface elevation change ± 1 standard error (mm/yr)", x = "Rate of surface elevation change (mm/yr)", y = "Station")
                 else if(raw_data_type == "MH")
-                    labs(title = "Rates of vertical accretion change ± 1 standard error (mm/yr)", x = "Rate of vertical accretion (mm/yr)", y = "Station")
+                    ggplot2::labs(title = "Rates of vertical accretion change ± 1 standard error (mm/yr)", x = "Rate of vertical accretion (mm/yr)", y = "Station")
                 else if(raw_data_type == "unknown")
-                    labs(title = "Rates of change ± 1 standard error (mm/yr)", x = "Rate of change (mm/yr)", y = "Station")}
+                    ggplot2::labs(title = "Rates of change ± 1 standard error (mm/yr)", x = "Rate of change (mm/yr)", y = "Station")}
 
     } else if (level == "site") {
 
@@ -162,16 +162,16 @@ plot_rate_comps <- function(data = NULL, rates = NULL, level = "station"){
         rates_data <- rates_data %>%
             tidyr::unite("grouping", all_of(groups), remove = FALSE)
 
-        ggplot(data = rates_data, aes(x = rate, y = grouping)) +
-            geom_vline(aes(xintercept = 0), color = "gray70", linetype = "dashed") +
-            geom_errorbar(aes(y = grouping, xmin = rate - rate_se, xmax = rate + rate_se), color = "gray55", linewidth = 1) +
-            geom_point(size = 3, color = "red3") +
+        ggplot2::ggplot(data = rates_data, aes(x = rate, y = grouping)) +
+            ggplot2::geom_vline(aes(xintercept = 0), color = "gray70", linetype = "dashed") +
+            ggplot2::geom_errorbar(aes(y = grouping, xmin = rate - rate_se, xmax = rate + rate_se), color = "gray55", linewidth = 1) +
+            ggplot2::geom_point(size = 3, color = "red3") +
             {if (raw_data_type == "SET")
-                labs(title = "Rates of surface elevation change ± 1 standard error (mm/yr)", x = "Rate of surface elevation change (mm/yr)", y = "Site")
+                ggplot2::labs(title = "Rates of surface elevation change ± 1 standard error (mm/yr)", x = "Rate of surface elevation change (mm/yr)", y = "Site")
                 else if (raw_data_type == "MH")
-                    labs(title = "Rates of vertical accretion ± 1 standard error (mm/yr)", x = "Rate of vertical accretion (mm/yr)", y = "Site")
+                    ggplot2::labs(title = "Rates of vertical accretion ± 1 standard error (mm/yr)", x = "Rate of vertical accretion (mm/yr)", y = "Site")
                 else if (raw_data_type == "unknown")
-                    labs(title = "Rates of change ± 1 standard error (mm/yr)", x = "Rate of change (mm/yr)", y = "Site")}
+                    ggplot2::labs(title = "Rates of change ± 1 standard error (mm/yr)", x = "Rate of change (mm/yr)", y = "Site")}
 
     }
 }

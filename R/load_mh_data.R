@@ -18,11 +18,13 @@
 #'
 #' @export
 #'
+#' @import dplyr
 #' @import DBI
 #' @import odbc
 #' @import readr
 #' @import readxl
 #' @import NPSutils
+#' @import stringr
 #'
 #' @examples
 #' \dontrun{
@@ -57,8 +59,8 @@ load_mh_data <- function(park = NULL, network_code = NULL, file_path = NULL, db_
         data_list <- NPSutils::load_data_package(ref_code)
 
         data <- data_list %>%
-            keep(., stringr::str_detect(names(.), "marker_horizon_data")) %>%
-            pluck(., 1) %>%
+            purrr::keep(., stringr::str_detect(names(.), "marker_horizon_data")) %>%
+            purrr::pluck(., 1) %>%
             { if (!is.null(park) & !is.null(network_code))
                 filter(., park_code == toupper(park) & network_code == toupper(network_code) & dpl == "Accepted")
 

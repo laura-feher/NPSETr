@@ -80,18 +80,18 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
 
             # nest data and run model
             tidyr::nest() %>%
-            mutate(lm_model = map(data, ~lm(mean_cumu ~ date_num, data = .)),
-                   lm_model_summary = map(lm_model, ~summary(.)),
-                   rate = map_dbl(lm_model, ~coefficients(.)[['date_num']]),
-                   intc = map_dbl(lm_model, ~coefficients(.)[["(Intercept)"]]),
-                   rate_se = map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Std. Error']]),
-                   rate_r2 = map_dbl(lm_model_summary, ~.$r.squared),
-                   rate_p = map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Pr(>|t|)']]),
-                   ci = map(lm_model, ~as.data.frame(confint(., parm = c("date_num"), level = 0.95))),
-                   ci_low = map_dbl(ci, ~.$`2.5 %`),
-                   ci_high =  map_dbl(ci, ~.$`97.5 %`),
+            mutate(lm_model = purrr::map(data, ~lm(mean_cumu ~ date_num, data = .)),
+                   lm_model_summary = purrr::map(lm_model, ~summary(.)),
+                   rate = purrr::map_dbl(lm_model, ~coefficients(.)[['date_num']]),
+                   intc = purrr::map_dbl(lm_model, ~coefficients(.)[["(Intercept)"]]),
+                   rate_se = purrr::map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Std. Error']]),
+                   rate_r2 = purrr::map_dbl(lm_model_summary, ~.$r.squared),
+                   rate_p = purrr::map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Pr(>|t|)']]),
+                   ci = purrr::map(lm_model, ~as.data.frame(confint(., parm = c("date_num"), level = 0.95))),
+                   ci_low = purrr::map_dbl(ci, ~.$`2.5 %`),
+                   ci_high =  purrr::map_dbl(ci, ~.$`97.5 %`),
                    ci_abs_value = abs(ci_high - rate),
-                   date_count = map_int(data, ~n_distinct(.x$event_date_UTC))
+                   date_count = purrr::map_int(data, ~n_distinct(.x$event_date_UTC))
             ) %>%
             {if (level == "station")
                 mutate(.,
@@ -127,18 +127,18 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
 
             # nest data and run model
             tidyr::nest() %>%
-            mutate(lm_model = map(data, ~lm(mean_cumu ~ date_num, data = .)),
-                   lm_model_summary = map(lm_model, ~summary(.)),
-                   rate = map_dbl(lm_model, ~coefficients(.)[['date_num']]),
-                   intc = map_dbl(lm_model, ~coefficients(.)[["(Intercept)"]]),
-                   rate_se = map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Std. Error']]),
-                   rate_r2 = map_dbl(lm_model_summary, ~.$r.squared),
-                   rate_p = map_dbl(lm_model_summary, ~.$coefficients[['date_num', "Pr(>|t|)"]]),
-                   ci = map(lm_model, ~as.data.frame(confint(., parm = c("date_num"), level = 0.95))),
-                   ci_low = map_dbl(ci, ~.$`2.5 %`),
-                   ci_high =  map_dbl(ci, ~.$`97.5 %`),
+            mutate(lm_model = purrr::map(data, ~lm(mean_cumu ~ date_num, data = .)),
+                   lm_model_summary = purrr::map(lm_model, ~summary(.)),
+                   rate = purrr::map_dbl(lm_model, ~coefficients(.)[['date_num']]),
+                   intc = purrr::map_dbl(lm_model, ~coefficients(.)[["(Intercept)"]]),
+                   rate_se = purrr::map_dbl(lm_model_summary, ~.$coefficients[['date_num', 'Std. Error']]),
+                   rate_r2 = purrr::map_dbl(lm_model_summary, ~.$r.squared),
+                   rate_p = purrr::map_dbl(lm_model_summary, ~.$coefficients[['date_num', "Pr(>|t|)"]]),
+                   ci = purrr::map(lm_model, ~as.data.frame(confint(., parm = c("date_num"), level = 0.95))),
+                   ci_low = purrr::map_dbl(ci, ~.$`2.5 %`),
+                   ci_high = purrr::map_dbl(ci, ~.$`97.5 %`),
                    ci_abs_value = abs(ci_high - rate),
-                   date_count = map_int(data, ~n_distinct(.x$event_date_UTC))
+                   date_count = purrr::map_int(data, ~n_distinct(.x$event_date_UTC))
             ) %>%
             {if (level == "station")
                 mutate(.,

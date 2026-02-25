@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_mh_data.R
 \name{load_mh_data}
 \alias{load_mh_data}
-\title{Dowload/Load raw marker horizon data from the NPS SET data package, NPS SET database, or a saved file}
+\title{Download/Load raw marker horizon data from the NPS SET data package, NPS SET database, or a saved file}
 \usage{
 load_mh_data(
   park = NULL,

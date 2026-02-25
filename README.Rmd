@@ -71,7 +71,7 @@ library(NPSETr)
 
 # The `load_` functions utilize the `get_data_package` function from the NPSutils package
 
-set_df <- load_set_data(park = "ASIS")
+set_df <- NPSETr::load_set_data(park = "ASIS")
 
 set_df %>%
     dplyr::select(
@@ -90,7 +90,7 @@ set_df %>%
 You can also supply a list of multiple parks or networks:
 
 ```{r message = FALSE, warning = FALSE}
-set_df <- load_set_data(park = c("ASIS", "COLO"))
+set_df <- NPSETr::load_set_data(park = c("ASIS", "COLO"))
 
 set_df %>%
     dplyr::select(
@@ -114,7 +114,7 @@ For those with access to the backend of the NPS I&M SET database, you can use `l
 library(NPSETr)
 library(tidyverse)
 
-# set_df <- load_set_data(network_code = "NETN", db_server = "example.server")
+# set_df <- NPSETr::load_set_data(network_code = "NETN", db_server = "example.server")
 
 set_df %>%
     dplyr::select(
@@ -135,7 +135,7 @@ set_df %>%
 Alternatively, if you have your data saved in a csv, xlsx, or xls file, you can load it into R by supplying the file path to the saved data file. See `? help(calc_change_cumu)` for required columns and data types if supplying your own data.
 
 ```{r message = FALSE, warning = FALSE}
-set_df <- load_set_data(file_path = here::here("data", "example_sets.csv"))
+set_df <- NPSETr::load_set_data(file_path = here::here("data", "example_sets.csv"))
 # equivalent to file_path = "./data/example_sets.csv"
 
 head(set_df)
@@ -147,14 +147,14 @@ The function `calc_change_cumu()` can be used to calculate station- or site-leve
 
 ```{r message=FALSE, warning=FALSE}
 # station-level cumulative surface elevation change change
-example_cumu_station <- calc_change_cumu(example_sets, level = "station")
+example_cumu_station <- NPSETr::calc_change_cumu(example_sets, level = "station")
 
 head(example_cumu_station)
 ```
 
 ```{r message=FALSE, warning=FALSE}
 # site-level cumulative vertical accretion
-example_cumu_site <- calc_change_cumu(example_mh, level = "site")
+example_cumu_site <- NPSETr::calc_change_cumu(example_mh, level = "site")
 
 head(example_cumu_site)
 ```
@@ -164,18 +164,18 @@ head(example_cumu_site)
 The function `plot_cumu()` can be used to plot station- or site-level cumulative surface elevation change from SET data or vertical accretion from MH data. You can also plot SET data and MH data on the same plot by supplying data frames to both the `SET_data` and `MH_data` arguments.
 
 ```{r message=FALSE, warning=FALSE}
-plot_cumu(SET_data = example_sets, level = "station")
+NPSETr::plot_cumu(SET_data = example_sets, level = "station")
 ```
 
 ```{r message=FALSE, warning=FALSE}
-plot_cumu(MH_data = example_mh, level = "station")
+NPSETr::plot_cumu(MH_data = example_mh, level = "station")
 ```
 
 ```{r message=FALSE, warning=FALSE}
 library(ggh4x)
 
 # Plot SET and MH data for each station together on a single plot:
-plot_cumu(SET_data = example_sets, MH_data = example_mh, columns = 2)
+NPSETr::plot_cumu(SET_data = example_sets, MH_data = example_mh, columns = 2)
 ```
 
 ## Calculate linear rates of change {#calculate-linear-rates-of-change}
@@ -183,7 +183,7 @@ plot_cumu(SET_data = example_sets, MH_data = example_mh, columns = 2)
 The function `calc_linear_rates()` can be used to calculate simple linear rates of change at the station-or site-level in mm/yr.
 
 ```{r message=FALSE, warning=FALSE}
-station_rates <- calc_linear_rates(example_sets, level = "station")
+station_rates <- NPSETr::calc_linear_rates(example_sets, level = "station")
 
 station_rates %>%
     dplyr::ungroup() %>%
@@ -191,7 +191,7 @@ station_rates %>%
 ```
 
 ```{r message=FALSE, warning=FALSE}
-site_rates <- calc_linear_rates(example_sets, level = "site")
+site_rates <- NPSETr::calc_linear_rates(example_sets, level = "site")
 
 site_rates %>%
     dplyr::ungroup() %>%
@@ -203,7 +203,7 @@ site_rates %>%
 The function `plot_rate_comps()` can be used to create 'tie fighter' plots that are helpful for visually comparing rates of surface elevation change or vertical accretion between stations or sites:
 
 ```{r message=FALSE, warning=FALSE}
-plot_rate_comps(example_sets, level = "station")
+NPSETr::plot_rate_comps(example_sets, level = "station")
 ```
 
 Alternatively, if you've already calculated rates of change and want to plot those, you can use the 'rates' argument to supply a data frame of rates that has columns for station IDs, station-level rates, and station rate std errors with one row per station:
@@ -213,13 +213,13 @@ example_rates <- data.frame(
     "station_code" = c("station_1", "station_2", "station_3"),
     "rate" = c(3.2, 4.0, 5.4),
     "rate_se" = c(1, 0.5, 0.25)) %>%
-    mutate(network_code = "NCBN",
+    dplyr::mutate(network_code = "NCBN",
            park_code = "ABCD",
            site_name = "Site A") %>%
-    group_by(network_code, park_code, site_name, station_code) %>%
+    dplyr::group_by(network_code, park_code, site_name, station_code) %>%
     dplyr::select(network_code, park_code, site_name, station_code, rate, rate_se)
 
-plot_rate_comps(rates = example_rates, level = "station")
+NPSETr::plot_rate_comps(rates = example_rates, level = "station")
 ```
 
 ## Get park specific SLR data and rates {#get-park-specific-slr-data-and-rates}
@@ -237,19 +237,19 @@ There are 5 functions for getting current/predicted future sea-level data and ra
 -   `get_future_slr_rate()` calculates future predicted sea-level rise rates based on calculations provided in Sweet et al. 2022 for the 5th National Climate Assessment.
 
 ```{r message=FALSE, warning=FALSE}
-get_sea_level_data("ASIS") %>%
+NPSETr::get_sea_level_data("ASIS") %>%
     head(2)
 
-get_long_slr_rate("ASIS") %>%
+NPSETr::get_long_slr_rate("ASIS") %>%
     head(2)
 
-get_recent_slr_rate("ASIS") %>%
+NPSETr::get_recent_slr_rate("ASIS") %>%
     head(2)
 
-get_future_sea_level_data("ASIS") %>%
+NPSETr::get_future_sea_level_data("ASIS") %>%
     head(2)
 
-get_future_slr_rate("ASIS") %>%
+NPSETr::get_future_slr_rate("ASIS") %>%
     head(2)
 ```
 
@@ -260,13 +260,13 @@ The function `write_set_mh_data()` can be used to write data to a csv file. Data
 Note that the name of the saved csv will be the name of the data frame supplied to `data` suffixed with the current date. The csv will be saved to the current working directory by default.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, echo=TRUE}
-write_set_mh_data(data = set_df)
+NPSETr::write_set_mh_data(data = set_df)
 ```
 
 Use the `dest_file` argument to save the csv to a specific location. By default, it will not create folders if the folder location doesn't already exist and it will not overwrite files with the same name. Use `create_folders = TRUE` if you want to save to a folder location that doesn't already exist and use `overwrite = TRUE` if you want to overwrite a file with the same name.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, echo=TRUE}
-write_set_mh_data(
+NPSETr::write_set_mh_data(
     data = set_df,
     dest_folder = here::here("C:", "Documents", "data"),
     create_folders = TRUE,

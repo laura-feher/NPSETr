@@ -21,6 +21,7 @@
 #'   sea-level rise published by NOAA.
 #'
 #' @import dplyr
+#' @import stringr
 #' @importFrom readr read_csv
 #'
 #' @export
@@ -33,8 +34,8 @@ get_long_slr_rate <- function(park, nauset = FALSE) {
     noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
 
     data <- as.data.frame(readr::read_csv("https://tidesandcurrents.noaa.gov/sltrends/data/USStationsLinearSeaLevelTrends.csv", show_col_types = FALSE, name_repair = make.names)) %>%
-        rename_with(., ~str_replace_all(.x, "\\.{2,}", ".")) %>%
-        rename_with(., ~str_replace_all(.x, "X", "Perc")) %>%
+        rename_with(., ~stringr::str_replace_all(.x, "\\.{2,}", ".")) %>%
+        rename_with(., ~stringr::str_replace_all(.x, "X", "Perc")) %>%
         filter(Station.ID == noaa_ids$station_num) %>%
         mutate(object_type = "long term slr rate")
 
