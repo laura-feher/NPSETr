@@ -78,9 +78,7 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
             filter(date_count >= 3) %>%
             select(-date_count) %>%
 
-            # convert dates to decimal year since first date
-            mutate(first_date = event_date_UTC[event_date_UTC == min(event_date_UTC[!is.na(mean_cumu)])],
-                   date_num = as.numeric(event_date_UTC - first_date)/365.25) %>%
+            # nest data and run model
             tidyr::nest() %>%
             mutate(lm_model = map(data, ~lm(mean_cumu ~ date_num, data = .)),
                    lm_model_summary = map(lm_model, ~summary(.)),
@@ -127,8 +125,7 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
             filter(date_count >= 3) %>%
             select(-c(date_count)) %>%
 
-            # convert dates to decimal year since first date
-            mutate(date_num = as.numeric(event_date_UTC - first_date)/365.25) %>%
+            # nest data and run model
             tidyr::nest() %>%
             mutate(lm_model = map(data, ~lm(mean_cumu ~ date_num, data = .)),
                    lm_model_summary = map(lm_model, ~summary(.)),

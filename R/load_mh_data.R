@@ -1,4 +1,4 @@
-#' Dowload/Load raw marker horizon data from the NPS SET data package, NPS SET database, or a saved file
+#' Download/Load raw marker horizon data from the NPS SET data package, NPS SET database, or a saved file
 #'
 #' This function can be used to download and/or load raw marker
 #' horizon data. Defaults to downloading data from the most recent SET data
