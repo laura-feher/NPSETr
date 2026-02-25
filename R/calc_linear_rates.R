@@ -50,7 +50,7 @@
 calc_linear_rates <- function(data, level = "station", override_site_corrections = FALSE){
 
     # determine if the data is SET or MH
-    data_type <- detect_data_type(data)
+    data_type <- NPSETr::detect_data_type(data)
 
     if (data_type != "SET" & data_type != "MH") {
         stop(paste0("Data must be either valid SET or MH data. See 'data requirements' in the documentation for `calc_change_cumu()`."))
@@ -58,17 +58,17 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
 
         # use linear regression to get a rate of change for each station
         linear_rates_set <- {if (level == "station")
-            { if(override_site_corrections == FALSE)
-                calc_change_cumu(data, level = "station")
-                else
-                    calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>% # first calculate cumulative change for each station
+        { if(override_site_corrections == FALSE)
+            NPSETr::calc_change_cumu(data, level = "station")
+            else
+                NPSETr::calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>% # first calculate cumulative change for each station
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
 
             else if (level == "site")
-                { if(override_site_corrections == FALSE)
-                    calc_change_cumu(data, level = "site")
-                    else
-                        calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
+            { if(override_site_corrections == FALSE)
+                NPSETr::calc_change_cumu(data, level = "site")
+                else
+                    NPSETr::calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 
@@ -101,21 +101,34 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
                            rate_level = "site")}
 
         return(linear_rates_set)
+        # returns a data frame with linear rates for each station or site in the supplied data frame. Output columns include:
+        # -lm_model: the linear model used to estimate the rate
+        # -lm_model_summary: the summary of lm_model via summary(lm_model)
+        # -rate: the rate of surface elevation change estimated from the model in mm/yr
+        # -intc: the model intercept
+        # -rate_se: the standard error of the coefficient for the rate of surface elevation change
+        # -rate_r2: the model r2
+        # -rate_p: the model p-value
+        # -ci: a list of the lower and upper 95% confidence intervals for the rate of surface elevation change
+        # -ci_low/ci_high: the lower and upper 95% confidence intervals for the rate of surface elevation change
+        # -ci_abs_value: the 95% confidence interval absolute value
+        # -date_count: a count of the # of SET measurements at each station/site
+        # -rate-level: whether the rate of surface elevation change is for station-level or site-level data
 
     } else if (data_type == "MH"){
 
         # first calculate cumulative change for each station
         linear_rates_mh <- {if (level == "station")
-            { if(override_site_corrections == FALSE)
-                calc_change_cumu(data, level = "station")
-                else
-                    calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>%
+        { if(override_site_corrections == FALSE)
+            NPSETr::calc_change_cumu(data, level = "station")
+            else
+                NPSETr::calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
             else if (level == "site")
-                { if(override_site_corrections == FALSE)
-                    calc_change_cumu(data, level = "site")
-                    else
-                        calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
+            { if(override_site_corrections == FALSE)
+                NPSETr::calc_change_cumu(data, level = "site")
+                else
+                    NPSETr::calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 
@@ -148,5 +161,18 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
                            rate_level = "site")}
 
         return(linear_rates_mh)
+        # returns a data frame with linear rates for each station or site in the supplied data frame. Output columns include:
+        # -lm_model: the linear model used to estimate the rate
+        # -lm_model_summary: the summary of lm_model via summary(lm_model)
+        # -rate: the rate of accretion estimated from the model in mm/yr
+        # -intc: the model intercept
+        # -rate_se: the standard error of the coefficient for the rate of accretion
+        # -rate_r2: the model r2
+        # -rate_p: the model p-value
+        # -ci: a list of the lower and upper 95% confidence intervals for the rate of accretion
+        # -ci_low/ci_high: the lower and upper 95% confidence intervals for the rate of accretion
+        # -ci_abs_value: the 95% confidence interval absolute value
+        # -date_count: a count of the # of MH measurements at each station/site
+        # -rate-level: whether the rate of accretion is for station-level or site-level data
     }
 }
