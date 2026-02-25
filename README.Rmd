@@ -99,12 +99,13 @@ set_df %>%
 
 ### From the NPS I&M SET database
 
-For those with access to the backend of the NPS I&M SET database, you can use `load_set_data()` or `load_mh_data()` to pull the latest data from database using the `db server` argument. Use the network code (`network_code`) or park code (`park`) arguments to filter the data to a specific I&M network(s) or park(s) using the appropriate 4-letter code.
+For those with access to the backend of the NPS I&M SET database, you can use `load_set_data()` or `load_mh_data()` to pull the latest data from database using the `db_server` argument. Note that you will also need to be connected to the NPS network or on VPN for this to work. Use the network code (`network_code`) or park code (`park`) arguments to filter the data to a specific I&M network(s) or park(s) using the appropriate 4-letter code.
 
 ```{r message = FALSE, warning = FALSE}
 library(NPSETr)
 library(tidyverse)
 
+# Note for those with access to the DB backend: you'll need to replace "example.server" with a valid server path
 # set_df <- NPSETr::load_set_data(network_code = "NETN", db_server = "example.server")
 
 set_df %>%
