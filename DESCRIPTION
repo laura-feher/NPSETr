@@ -10,6 +10,14 @@ Author:
            family = "Cressman",
            role = c("aut"),
            email = "kim@catbirdstats.com")
+    person(given = "JP",
+           family = "Schmit",
+           role = c("aut"),
+           email = "John_Schmit@nps.gov")       
+    person(given = "Charles",
+           family = "Wainright",
+           role = c("aut"),
+           email = "charles_wainright@nps.gov")       
 Maintainer: Laura Feher <laura_feher@nps.gov>
 Description: Simplifies calculations and makes graphs for communication of NPS I&M 
     SET data.
