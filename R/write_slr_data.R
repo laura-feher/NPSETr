@@ -23,6 +23,7 @@
 #'
 #' @export
 #'
+#' @import dplyr
 #' @importFrom readr write_csv
 #'
 #' @examples

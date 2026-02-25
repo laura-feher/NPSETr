@@ -83,7 +83,7 @@ drop_groups2 = function(data, ...) {
 
 # groups the stations into their correct sites for calculating cumulative change and rates of change
 correct_site_groups <- function(station_code, site_name) {
-    case_when(
+    dplyr::case_when(
         # station_code %in% c("M11-3", "M5-2", "M6-4", "M8-4") ~ "Fenced stations", # not sure if I want to group these like this or not - causes issues when grouping dates and getting cumu. change at the site-level
         station_code %in% c("G1", "G2", "G3", "GUT1", "GUT2", "GUT3") ~ "Herring River Gut",
         station_code %in% c("HighToss1", "HighToss2", "HighToss3") ~ "Herring River High Toss",
@@ -111,18 +111,18 @@ plot_rate_labels <- function(data, level, groups, data_type) {
 
     data %>%
         calc_linear_rates(., level = level) %>%
-        tidyr::unite("grouping", all_of(groups), remove = FALSE) %>%
-        mutate(format_rate = if_else(abs(round(rate, 2)) >= 0.01, format(round(rate, 2), nsmall = 2), as.character(signif(rate))),
-               format_rate_se = if_else(abs(round(rate_se, 2)) >= 0.01, format(round(rate_se, 2), nsmall = 2), as.character(signif(rate_se))),
+        tidyr::unite("grouping", tidyselect::all_of(groups), remove = FALSE) %>%
+        dplyr::mutate(format_rate = dplyr::if_else(abs(round(rate, 2)) >= 0.01, format(round(rate, 2), nsmall = 2), as.character(signif(rate))),
+               format_rate_se = dplyr::if_else(abs(round(rate_se, 2)) >= 0.01, format(round(rate_se, 2), nsmall = 2), as.character(signif(rate_se))),
                format_r2  = format(round(rate_r2, 2), nsmall =2),
-               format_p = case_when(rate_p > 0.05 ~ "ns",
+               format_p = dplyr::case_when(rate_p > 0.05 ~ "ns",
                                     rate_p <= 0.05 & rate_p > 0.01 ~ "0.05",
                                     rate_p <= 0.01 & rate_p > 0.001 ~ "0.01",
                                     rate_p <= 0.001 ~ "0.001")) %>%
-        mutate(rate_label = paste0(lab_prefix, format_rate, " ± ", format_rate_se, " mm/yr"),
+        dplyr::mutate(rate_label = paste0(lab_prefix, format_rate, " ± ", format_rate_se, " mm/yr"),
                r2p_label_sig = deparse(bquote(italic(r)^2~"="~.(format_r2)*plain(",")~italic(p)~"="~italic(.(format_p)))),
                r2p_label_ns = deparse(bquote(italic(r)^2~"="~.(format_r2)*plain(",")~italic(p)~"="~italic(.(format_p)))),
-               r2p_label = if_else(rate_p >= 0.05, r2p_label_ns, r2p_label_sig)
+               r2p_label = dplyr::if_else(rate_p >= 0.05, r2p_label_ns, r2p_label_sig)
         )
 }
 

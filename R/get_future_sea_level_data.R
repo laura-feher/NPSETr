@@ -48,18 +48,18 @@ get_future_sea_level_data <- function (park, nauset = FALSE, scenario_percentile
         mutate(park_code = park,
                slr_by_2100_m = as.numeric(str_sub(Scenario, 1, 3)),
                across(starts_with("RSL"), ~.x * 10),
-               scenario_name = case_when(str_detect(Scenario, "0.3") ~ "low",
-                                         str_detect(Scenario, "0.5") ~ "int_low",
-                                         str_detect(Scenario, "1.0") ~ "int",
-                                         str_detect(Scenario, "1.5") ~ "int_high",
-                                         str_detect(Scenario, "2.0") ~ "high"),
-               scenario_perc = str_extract(Scenario, "[A-Za-z]+"),
+               scenario_name = case_when(stringr::str_detect(Scenario, "0.3") ~ "low",
+                                         stringr::str_detect(Scenario, "0.5") ~ "int_low",
+                                         stringr::str_detect(Scenario, "1.0") ~ "int",
+                                         stringr::str_detect(Scenario, "1.5") ~ "int_high",
+                                         stringr::str_detect(Scenario, "2.0") ~ "high"),
+               scenario_perc = stringr::str_extract(Scenario, "[A-Za-z]+"),
                object_type = "future sea level data") %>%
         {if (!is.null(scenario_percentile))
-            filter(., str_detect(Scenario, scenario_percentile))
+            filter(., stringr::str_detect(Scenario, scenario_percentile))
             else
                 .} %>%
-        rename_with(., ~paste0("rsl_", str_extract(.x, "\\d{4}"), "_mm"), .cols = starts_with("RSL")) %>%
+        rename_with(., ~paste0("rsl_", stringr::str_extract(.x, "\\d{4}"), "_mm"), .cols = starts_with("RSL")) %>%
         select(park_code, "PSMSL_Site" = `PSMSL Site`, "PSMSL_ID" = `PSMSL ID`, "NOAA_Name" = `NOAA Name`, "NOAA_ID" = `NOAA ID`, Scenario, scenario_name, slr_by_2100_m, scenario_perc, starts_with("rsl"), object_type))
 
     return(data)
