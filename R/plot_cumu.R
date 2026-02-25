@@ -30,7 +30,7 @@
 #' @param pointsize number (optional). Size of points on the plot; defaults to
 #'   3.5. Utilizes the `size` argument of [ggplot2::geom_point].
 #'
-#' @param scales string (optional). Do you want axis scales to be the same in
+#' @param plot_scales string (optional). Do you want axis scales to be the same in
 #'   all facets ("fixed") or to vary between facets? Defaults to using the same
 #'   scale between all panels. Utilizes the `scales` parameter of
 #'   [ggplot2::facet_wrap]. One of:
@@ -71,7 +71,7 @@
 #'
 #' # Change the number of columns, point size, or scaling of x- and/or y-axis
 #' plot_cumu(SET_data = example_sets, MH_data = example_mh, columns = 2,
-#' pointsize = 1, scales = "free")
+#' pointsize = 1, plot_scales = "free")
 #'
 #' # Apply a date filter to both SET and MH, and then plot
 #' df_list <- list("SET" = example_sets, "MH" = example_mh) %>%
@@ -89,7 +89,7 @@
 #'         axis.text = element_text(color = "red")
 #'         )
 #'
-plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_type = NULL, columns = 4, pointsize = 2, scales = "fixed") {
+plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_type = NULL, columns = 4, pointsize = 2, plot_scales = "fixed") {
 
     base_plot <- function(df, data_type) {
 
@@ -114,7 +114,7 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
             # ggplot2::geom_smooth(formula = y~x, se = FALSE, method = "lm", color = smooth_color, linewidth = 1) +
             ggplot2::geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
             ggplot2::geom_point(shape = 21, fill = point_fill_color, color = point_outline_color, size = pointsize, alpha = 0.9) +
-            ggplot2::facet_wrap(~grouping, ncol = columns, scales = scales) +
+            ggplot2::facet_wrap(~grouping, ncol = columns, scales = plot_scales) +
             ggplot2::labs(title = paste0(title_lab, level), x = "Date", y = y_lab) +
             ggplot2::theme_classic()
     }
@@ -258,15 +258,15 @@ plot_cumu <- function(SET_data = NULL, MH_data = NULL, level = "station", rate_t
                 suppressWarnings(
                     ggplot2::ggplot(df, aes(x = event_date_UTC, y = mean_cumu, group = data_type)) +
                         ggplot2::geom_line(aes(color1 = data_type)) +
-                        # gggplot2::eom_smooth(aes(color2 = data_type), formula = y~x, se = FALSE, method = 'lm', linewidth = 1) +
+                        # gggplot2::geom_smooth(aes(color2 = data_type), formula = y~x, se = FALSE, method = 'lm', linewidth = 1) +
                         ggplot2::geom_errorbar(aes(x = event_date_UTC, ymin = mean_cumu - se_cumu, ymax = mean_cumu + se_cumu)) +
                         ggplot2::geom_point(aes(fill = data_type, color3 = data_type), shape = 21, size = pointsize, alpha = 0.9) +
-                        ggplot2::facet_wrap(~grouping, ncol = columns, scales = scales) +
+                        ggplot2::facet_wrap(~grouping, ncol = columns, scales = plot_scales) +
                         ggh4x::scale_listed(scalelist = list(
-                            scale_colour_manual(values = c('lightsteelblue4', 'indianred4'), aesthetics = "color1", breaks = c("SET", "MH")),
-                            # scale_colour_manual(values = c('steelblue4', 'tomato4'), aesthetics = "color2", breaks = c("SET", "MH")),
-                            scale_colour_manual(values = c('steelblue3', 'tomato3'), aesthetics = "color3", breaks = c("SET", "MH")),
-                            scale_fill_manual(values = c('lightsteelblue1', 'indianred1'), breaks = c("SET", "MH"))
+                            ggplot2::scale_colour_manual(values = c('lightsteelblue4', 'indianred4'), aesthetics = "color1", breaks = c("SET", "MH")),
+                            # ggplot2::scale_colour_manual(values = c('steelblue4', 'tomato4'), aesthetics = "color2", breaks = c("SET", "MH")),
+                            ggplot2::scale_colour_manual(values = c('steelblue3', 'tomato3'), aesthetics = "color3", breaks = c("SET", "MH")),
+                            ggplot2::scale_fill_manual(values = c('lightsteelblue1', 'indianred1'), breaks = c("SET", "MH"))
                         # ), replaces = c("color", "color", "color", "fill")) +
                         ), replaces = c("color", "color", "fill")) +
                         ggplot2::labs(title = paste0('Cumulative surface elevation change and\nvertical accretion by ', level), x = 'Date', y = 'Cumulative surface elevation change and\nvertical accretion (mm)') +

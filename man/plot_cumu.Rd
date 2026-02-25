@@ -12,7 +12,7 @@ plot_cumu(
   rate_type = NULL,
   columns = 4,
   pointsize = 2,
-  scales = "fixed"
+  plot_scales = "fixed"
 )
 }
 \arguments{
@@ -41,7 +41,7 @@ output; defaults to 4. Utilizes the `ncol` argument of
 \item{pointsize}{number (optional). Size of points on the plot; defaults to
 3.5. Utilizes the `size` argument of [ggplot2::geom_point].}
 
-\item{scales}{string (optional). Do you want axis scales to be the same in
+\item{plot_scales}{string (optional). Do you want axis scales to be the same in
 all facets ("fixed") or to vary between facets? Defaults to using the same
 scale between all panels. Utilizes the `scales` parameter of
 [ggplot2::facet_wrap]. One of:
@@ -118,7 +118,7 @@ plot_cumu(SET_data = example_sets, MH_data = example_mh, level = "site")
 
 # Change the number of columns, point size, or scaling of x- and/or y-axis
 plot_cumu(SET_data = example_sets, MH_data = example_mh, columns = 2,
-pointsize = 1, scales = "free")
+pointsize = 1, plot_scales = "free")
 
 # Apply a date filter to both SET and MH, and then plot
 df_list <- list("SET" = example_sets, "MH" = example_mh) \%>\%
