@@ -23,7 +23,6 @@
 #' @import odbc
 #' @import readr
 #' @import readxl
-#' @import NPSutils
 #' @import stringr
 #'
 #' @examples
@@ -62,13 +61,13 @@ load_mh_data <- function(park = NULL, network_code = NULL, file_path = NULL, db_
             purrr::keep(., stringr::str_detect(names(.), "marker_horizon_data")) %>%
             purrr::pluck(., 1) %>%
             { if (!is.null(park) & !is.null(network_code))
-                filter(., park_code == toupper(park) & network_code == toupper(network_code) & dpl == "Accepted")
+                filter(., park_code %in% toupper(park) & network_code %in% toupper(network_code) & dpl == "Accepted")
 
                 else if (!is.null(park) & is.null(network_code))
-                    filter(., park_code == toupper(park) & dpl == "Accepted")
+                    filter(., park_code %in% toupper(park) & dpl == "Accepted")
 
                 else if (is.null(park) & !is.null(network_code))
-                    filter(., network_code == toupper(network_code) & dpl == "Accepted")
+                    filter(., network_code %in% toupper(network_code) & dpl == "Accepted")
 
                 else if (is.null(park) & is.null(network_code))
                     filter(., dpl == "Accepted")

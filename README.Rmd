@@ -15,47 +15,38 @@ knitr::opts_chunk$set(
 
 # NPSETr
 
-<!-- badges: start -->
-
-[![R-CMD-check](https://github.com/laura-feher/NPSETr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/laura-feher/NPSETr/actions/workflows/R-CMD-check.yaml)
-
-<!-- badges: end -->
-
 The goal of NPSETr is to simplify the calculation of cumulative rates of surface elevation change and vertical accretion from the National Park Services' Surface Elevation Table (SET) data.
 
 This package is based on the [SETr](https://github.com/swmpkim/SETr) package developed by Kim Cressman for the National Estuarine Research Reserve System (<https://nerrssciencecollaborative.org/project/Cressman18>).
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install NPSETr from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+# Set download options and install prerequisite packages
+options(download.file.method = "wininet")
+install.packages(c("languageserver", "jsonlite", "rlang", "devtools", "remotes", "broom.mixed", "tidyverse"))
+
+# Install NPSutils from github and upgrade all dependencies
+devtools::install_github("nationalparkservice/NPSutils", upgrade='all')
+
+# then install NPSETr
 devtools::install_github("laura-feher/NPSETr")
 ```
 
 ## Primary Functions
 
 -   [Load SET or MH data](#load-set-or-mh-data)
-
     -   [From the most recent NPS I&M SET data package]
-
     -   [From the NPS I&M SET database]
-
     -   [From a saved file of raw SET or MH data]
-
 -   [Calculate cumulative change](#calculate-cumulative-change)
-
 -   [Plot cumulative change](#plot-cumulative-change)
-
 -   [Calculate linear rates of change](#calculate-linear-rates-of-change)
-
 -   [Plot and compare rates of change](#plot-and-compare-rates-of-change)
-
 -   [Get park-specific SLR data & rates](#get-park-specific-slr-data-and-rates)
-
 -   [Save SET/MH data, cumulative change, or rates of change to file](#save-setmh-data-cumulative-change-or-rates-of-change-to-file)
-
 -   [Save SLR data & rates to file](#save-slr-data-rates-to-file)
 
 ## Load SET or MH data {#load-set-or-mh-data}
@@ -108,12 +99,13 @@ set_df %>%
 
 ### From the NPS I&M SET database
 
-For those with access to the backend of the NPS I&M SET database, you can use `load_set_data()` or `load_mh_data()` to pull the latest data from database using the `db server` argument. Use the network code (`network_code`) or park code (`park`) arguments to filter the data to a specific I&M network(s) or park(s) using the appropriate 4-letter code.
+For those with access to the backend of the NPS I&M SET database, you can use `load_set_data()` or `load_mh_data()` to pull the latest data from database using the `db_server` argument. Note that you will also need to be connected to the NPS network or on VPN for this to work. Use the network code (`network_code`) or park code (`park`) arguments to filter the data to a specific I&M network(s) or park(s) using the appropriate 4-letter code.
 
 ```{r message = FALSE, warning = FALSE}
 library(NPSETr)
 library(tidyverse)
 
+# Note for those with access to the DB backend: you'll need to replace "example.server" with a valid server path
 # set_df <- NPSETr::load_set_data(network_code = "NETN", db_server = "example.server")
 
 set_df %>%
@@ -227,13 +219,9 @@ NPSETr::plot_rate_comps(rates = example_rates, level = "station")
 There are 5 functions for getting current/predicted future sea-level data and rates based on data from the NOAA gauge that is closest to each park:
 
 -   `get_sea_level_data()` can be used to download sea-level data from the NOAA tide gauge that is closest to a specific park.
-
 -   `get_long_slr_rate()` gets the current park-specific "long-term" rate of sea-level rise published by NOAA (<https://tidesandcurrents.noaa.gov/sltrends/>).
-
 -   `get_recent_slr_rate()` calculates a recent rate of sea-level for a specified time period. Defaults to the most recent tidal epoch (2001-2019).
-
 -   `get_future_sea_level_data()` gets future predicted sea-level data based on calculations provided in Sweet et al. 2022 for the 5th National Climate Assessment.
-
 -   `get_future_slr_rate()` calculates future predicted sea-level rise rates based on calculations provided in Sweet et al. 2022 for the 5th National Climate Assessment.
 
 ```{r message=FALSE, warning=FALSE}
@@ -263,7 +251,7 @@ Note that the name of the saved csv will be the name of the data frame supplied 
 NPSETr::write_set_mh_data(data = set_df)
 ```
 
-Use the `dest_file` argument to save the csv to a specific location. By default, it will not create folders if the folder location doesn't already exist and it will not overwrite files with the same name. Use `create_folders = TRUE` if you want to save to a folder location that doesn't already exist and use `overwrite = TRUE` if you want to overwrite a file with the same name.
+Use the `dest_folder` argument to save the csv to a specific location. By default, it will not create folders if the folder location doesn't already exist and it will not overwrite files with the same name. Use `create_folders = TRUE` if you want to save to a folder location that doesn't already exist and use `overwrite = TRUE` if you want to overwrite a file with the same name.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, echo=TRUE}
 NPSETr::write_set_mh_data(

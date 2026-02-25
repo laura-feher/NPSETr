@@ -43,7 +43,6 @@
 #' @import odbc
 #' @import readr
 #' @import readxl
-#' @import NPSutils
 #' @import stringr
 #'
 #' @examples
@@ -81,13 +80,13 @@ load_set_data <- function(park = NULL, network_code = NULL, file_path = NULL, db
             purrr::keep(., stringr::str_detect(names(.), "pin_data")) %>%
             purrr::pluck(., 1) %>%
             { if (!is.null(park) & !is.null(network_code))
-                filter(., park_code == toupper(park) & network_code == toupper(network_code) & dpl_label == "Accepted")
+                filter(., park_code %in% toupper(park) & network_code %in% toupper(network_code) & dpl_label == "Accepted")
 
                 else if (!is.null(park) & is.null(network_code))
-                    filter(., park_code == toupper(park) & dpl_label == "Accepted")
+                    filter(., park_code %in% toupper(park) & dpl_label == "Accepted")
 
                 else if (is.null(park) & !is.null(network_code))
-                    filter(., network_code == toupper(network_code) & dpl_label == "Accepted")
+                    filter(., network_code %in% toupper(network_code) & dpl_label == "Accepted")
 
                 else if (is.null(park) & is.null(network_code))
                     filter(., dpl_label == "Accepted")
