@@ -9,8 +9,8 @@
 #' @param scenario_percentile character (optional). For each of the 5 GMSL
 #'   scenarios (identified by the rise amounts in meters by 2100--0.3 m , 0.5 m.
 #'   1.0 m, 1.5 m and 2.0 m), there is a low, medium (med) and high value,
-#'   corresponding to the 17th, 50th, and 83rd percentiles. One of `NULL`
-#'   (default), `"LOW"`, `"MED"`, or `"HIGH"`. The default (`NULL`) returns all
+#'   corresponding to the 17th, 50th, and 83rd percentiles, respectively. One of
+#'   `NULL` (default), "LOW", "MED", or "HIGH". The default (`NULL`) returns all
 #'   percentiles.
 #'
 #' @references Sweet, W.V., B.D. Hamlington, R.E. Kopp, C.P. Weaver, P.L.
@@ -22,11 +22,13 @@
 #'   Probabilities Along U.S. Coastlines. NOAA Technical Report NOS 01. National
 #'   Oceanic and Atmospheric Administration, National Ocean Service, Silver
 #'   Spring, MD, 111 pp.
-#'   https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf
+#'   \url{https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf}
 #'
 #' @returns A data frame with the future predicted sea-level rise amounts
 #'   (millimeters) by the end of each 10-year period between 2005 to 2150 based
 #'   on Sweet et al. 2022.
+#'
+#' @seealso \code{\link{get_future_slr_rate}}
 #'
 #' @import dplyr
 #' @import stringr

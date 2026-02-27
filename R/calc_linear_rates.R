@@ -17,7 +17,9 @@
 #'
 #' @note Stations with fewer than 3 measurement dates are excluded from the
 #'   calculation of rates. Cumulative change is calculated via the function
-#'   [calc_change_cumu] - see function documentation for details.
+#'   \code{\link{calc_change_cumu}} - see function documentation for details.
+#'
+#' @seealso \code{\link{calc_change_cumu}}
 #'
 #' @export
 #'
@@ -40,7 +42,7 @@
 #' ## Exclude data from after 2016 from calculations of linear rates
 #' example_sets %>%
 #'     filter(event_date_UTC < as.Date("2016-01-01")) %>%
-#'     calc_change_cumu(., level = "station")
+#'     calc_linear_rates(., level = "station")
 #'
 #' ## Define custom groups for calculating linear rates
 #' example_sets %>%

@@ -9,37 +9,37 @@ get_recent_slr_rate(park, nauset = FALSE, start_year = 2001, end_year = 2019)
 }
 \arguments{
 \item{park}{A string (required). A capitalized four-letter park code. One of:
-* `"ACAD"`: Acadia National Park - gauge 8413320 Bar Harbor, ME.
-* `"BOHA"`: Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
-* `"CACO"`: Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
-* `"FIIS"`: Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
-* `"GATE"`: Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
-* `"NACE"`: National Capital Area East - gauge 8594900 Washington, DC.
-* `"GWMP"`: George Washington Memorial Parkway - gauge 8594900 Washington, DC.
-* `"ASIS"`: Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
-* `"COLO"`: Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
-* `"CAHA"`: Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
-* `"CALO"`: Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
-* `"FOPU"`: Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
-* `"FOFR"`: Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
-* `"CUIS"`: Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
-* `"TIMU"`: Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"FOMA"`: Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"CANA"`: Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
-* `"BISC"`: Biscayne National Park - gauge 8723214 Virginia Key, FL.
-* `"VIIS"`: Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
-* `"SARI"`: Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.}
+\itemize{
+  \item "ACAD": Acadia National Park - gauge 8413320 Bar Harbor, ME.
+  \item "BOHA": Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
+  \item "CACO": Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
+  \item "FIIS": Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
+  \item "GATE": Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
+  \item "NACE": National Capital Area East - gauge 8594900 Washington, DC.
+  \item "GWMP": George Washington Memorial Parkway - gauge 8594900 Washington, DC.
+  \item "ASIS": Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
+  \item "COLO": Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
+  \item "CAHA": Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
+  \item "CALO": Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
+  \item "FOPU": Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
+  \item "FOFR": Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
+  \item "CUIS": Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
+  \item "TIMU": Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "FOMA": Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "CANA": Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
+  \item "BISC": Biscayne National Park - gauge 8723214 Virginia Key, FL.
+  \item "VIIS": Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
+  \item "SARI": Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.
+}}
 
 \item{nauset}{Logical (optional). Used to select the Nauset gauge for CACO;
 defaults to FALSE.}
 
-\item{start_year}{A four digit year (optional). The starting year that you
-want to get sea-level data for. If start_year is not supplied (default),
-returns data for the entire period of record for that station.}
+\item{start_year}{integer; The start year for the recent SLR rate. Defaults
+to 2001.}
 
-\item{end_year}{An four digit year (optional). The ending year that you want
-to get sea-level data for. If end_year is not supplied (default), returns
-data for the entire period of record for that station.}
+\item{end_year}{integer; The end year for the recent SLR rate. Defaults to
+2019.}
 }
 \value{
 A data frame with a park-specific recent rate of sea-level rise
@@ -48,22 +48,22 @@ A data frame with a park-specific recent rate of sea-level rise
 }
 \description{
 This function downloads sea-level data for the nearest NOAA tide gauge from
-the tides and currents website (https://tidesandcurrents.noaa.gov/sltrends/)
-and then calculates a rate of sea-level rise for the specified time period.
-Defaults to the 19 year time period for the most recent tidal epoch:
-2001-2019.
+the tides and currents website
+(\url{https://tidesandcurrents.noaa.gov/sltrends/}) and then calculates a
+rate of sea-level rise for the specified time period. Defaults to the 19 year
+time period for the most recent tidal epoch: 2001-2019.
 }
 \details{
 The recent rate of sea-level rise is calculated via linear
   regression using monthly mean sea-levels with the regular seasonal
   fluctuations removed. Sea-level data is downloaded from the NOAA tides and
-  currents website https://tidesandcurrents.noaa.gov/. Note that monthly mean
-  sea level values are relative to the most recent mean sea-level datum
-  established by CO-OPS
-  (https://tidesandcurrents.noaa.gov/datum_options.html).The value in the
-  'estimate' column for the 'yr' term represents the recent rate of sea-level
-  rise, and the value in 'std.error' column represents the standard error of
-  the recent sea-level rise rate.
+  currents website \url{https://tidesandcurrents.noaa.gov/}. Note that
+  monthly mean sea level values are relative to the most recent mean
+  sea-level datum established by CO-OPS
+  (\url{https://tidesandcurrents.noaa.gov/datum_options.html}).The value in
+  the 'estimate' column for the 'yr' term represents the recent rate of
+  sea-level rise, and the value in 'std.error' column represents the standard
+  error of the recent sea-level rise rate.
 }
 \examples{
 get_recent_slr_rate(park = "ASIS")
@@ -75,15 +75,15 @@ Moon, J.A., Feher, L.C., Lane, T.C., Vervaeke, W.C., Osland,
   and Metzger, K.L., 2022. Surface elevation change dynamics in coastal
   marshes along the Northwestern Gulf of Mexico: Anticipating effects of
   rising sea-level and intensifying hurricanes. Wetlands
-  42(5):49.(https://doi.org/10.1007/s13157-022-01565-3)
+  42(5):49.(\url{https://doi.org/10.1007/s13157-022-01565-3})
 
 Chivoiu, B., Osland, M.J., Collini, R., Martin, S., Tirpak, J.,
   and Wilson, B., 2020. Local sea level rise information sheets for Texas,
   Louisiana, Mississippi, Alabama and Florida: Northern Gulf of Mexico
   Sentinel Site Cooperative, U.S. Geological Survey and U.S. Fish and
   Wildlife Service: Mississippi-Alabama Sea Grant Consortium,
-  (https://placeslr.org/our-products/federally-managed-lands-two-pagers/)
+  (\url{https://placeslr.org/our-products/federally-managed-lands-two-pagers/})
 }
 \seealso{
-[get_sea_level_data()]
+\code{\link{get_sea_level_data}}
 }

@@ -11,9 +11,11 @@ calc_linear_rates(data, level = "station", override_site_corrections = FALSE)
 for requirements.}
 
 \item{level}{string (optional). Level at which to calculate rates of surface
-elevation change or vertical accretion. One of:
-* `"station"`: (default) station-level rates of surface elevation change.
-* `"site"`: site-level rates of surface elevation change.}
+  elevation change or vertical accretion. One of:
+  \itemize{
+    \item "station": (default) station-level rates of surface elevation change.
+    \item "site": site-level rates of surface elevation change.
+}}
 
 \item{override_site_corrections}{logical (optional). If TRUE, don't use the
 site groupings specified in utils.R since these are specific to the USGS
@@ -33,7 +35,7 @@ linear rate of surface elevation change (for SET data) or vertical accretion
 \note{
 Stations with fewer than 3 measurement dates are excluded from the
   calculation of rates. Cumulative change is calculated via the function
-  [calc_change_cumu] - see function documentation for details.
+  \code{\link{calc_change_cumu}} - see function documentation for details.
 }
 \section{Data Requirements}{
 
@@ -45,12 +47,12 @@ Stations with fewer than 3 measurement dates are excluded from the
   SET_direction, pin_position, SET_offset_mm, pin_length_mm, and
   pin_height_mm. Note that SET_offset_mm and pin_length_mm can be empty (aka
   blank) but the columns must be included in the data frame. See
-  `example_sets`.
+  `data(example_sets)`.
 
   MH data must have 1 row per core measurement and the following columns,
   named exactly: event_date_UTC, network_code, park_code, site_name,
   marker_horizon_name, core_measurement_number, core_measurement_depth_mm,
-  and established_date. See `example_mh`.
+  and established_date. See `data(example_mh)`.
 }
 
 \section{Details}{
@@ -90,11 +92,14 @@ example_sets \%>\%
 ## Exclude data from after 2016 from calculations of linear rates
 example_sets \%>\%
     filter(event_date_UTC < as.Date("2016-01-01")) \%>\%
-    calc_change_cumu(., level = "station")
+    calc_linear_rates(., level = "station")
 
 ## Define custom groups for calculating linear rates
 example_sets \%>\%
     group_by(set_type) \%>\%
     calc_linear_rates(., level = "site")
 
+}
+\seealso{
+\code{\link{calc_change_cumu}}
 }

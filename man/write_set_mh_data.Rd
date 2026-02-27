@@ -2,7 +2,8 @@
 % Please edit documentation in R/write_set_mh_data.R
 \name{write_set_mh_data}
 \alias{write_set_mh_data}
-\title{Save raw SET/MH data, cumulative change, or linear rates of change to a csv file}
+\title{Save raw SET/MH data, cumulative change, or linear rates of change to a csv
+file}
 \usage{
 write_set_mh_data(
   data,
@@ -13,9 +14,10 @@ write_set_mh_data(
 }
 \arguments{
 \item{data}{data frame. Can be a data frame of raw SET/MH data produced by
-`load_set_data` or `load_mh_data`, a data frame of cumulative change
-produced by `calc_change_cumu`, or a data frame of calculated linear rates
-produced by `calc_linear_rates`.}
+\code{\link{load_set_data}} or \code{\link{load_mh_data}}, a data frame of
+cumulative change produced by \code{\link{calc_change_cumu}}, or a data
+frame of calculated linear rates produced by
+\code{\link{calc_linear_rates}}.}
 
 \item{dest_folder}{string (optional). The folder where you want the file to
 be saved. Defaults to the current working directory.}
@@ -32,10 +34,11 @@ Saves a data frame to a csv. The file name will be the name of the
   "colo_set_data_2025-06-04.csv".
 }
 \description{
-This function saves a data frame to a csv file. Can be a data frame of
-raw SET/MH data produced by `load_set_data` or `load_mh_data`, a data frame
-of cumulative change produced by `calc_change_cumu`, or a data frame of
-calculated linear rates produced by `calc_linear_rates`.
+This function saves a data frame to a csv file. Can be a data frame of raw
+SET/MH data produced by \code{\link{load_set_data}} or
+\code{\link{load_mh_data}}, a data frame of cumulative change produced by
+\code{\link{calc_change_cumu}}, or a data frame of calculated linear rates
+produced by \code{\link{calc_linear_rates}}.
 }
 \examples{
 \dontrun{
@@ -67,4 +70,8 @@ write_set_mh_data(
     )
 }
 
+}
+\seealso{
+\code{\link{load_set_data}}, \code{\link{load_mh_data}},
+  \code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}}
 }

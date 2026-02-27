@@ -29,7 +29,7 @@ options(download.file.method = "wininet")
 install.packages(c("languageserver", "jsonlite", "rlang", "devtools", "remotes", "broom.mixed", "tidyverse"))
 
 # Install NPSutils from github and upgrade all dependencies
-devtools::install_github("nationalparkservice/NPSutils", upgrade='all')
+devtools::install_github("nationalparkservice/NPSutils", upgrade='always')
 
 # then install NPSETr
 devtools::install_github("laura-feher/NPSETr")

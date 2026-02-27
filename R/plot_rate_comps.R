@@ -1,10 +1,12 @@
-#' Plot comparison of station- or site-level surface elevation change or vertical accretion rates
+#' Plot comparison of station- or site-level surface elevation change or
+#' vertical accretion rates
 #'
 #' This function creates a 'TIE fighter' style plot that can be used to visually
-#' compare station- or site-level linear rates of surface elevation change or vertical accretion.
+#' compare station- or site-level linear rates of surface elevation change or
+#' vertical accretion.
 #'
-#' Accepts either a data frame of either raw SET or MH data (`data` argument) or a
-#' data frame of pre-calculated station- or site-level rates of surface
+#' Accepts either a data frame of either raw SET or MH data (`data` argument) or
+#' a data frame of pre-calculated station- or site-level rates of surface
 #' elevation change or vertical accretion (`rates` argument).
 #'
 #' @param data A data frame (optional). A data frame of raw SET or MH data. See
@@ -13,10 +15,7 @@
 #' @param rates A data frame (optional). A data frame of station- or site-level
 #'   rates of surface elevation change. See details below for requirements.
 #'
-#' @param level A string (optional). Level at which to calculate rates of
-#'   surface elevation change. One of:
-#'   * `"station"`: (default) station-level rates of surface elevation change.
-#'   * `"site"`: site-level rates of surface elevation change.
+#' @inheritParams calc_change_cumu
 #'
 #' @inheritSection calc_change_cumu Data Requirements
 #'
@@ -41,13 +40,15 @@
 #'   site_name, rate, and rate_se. The "rate" and "rate_se" columns should
 #'   represent the site-level rates and their standard errors (respectively).
 #'
-#' @inheritSection plot_cumu Note
+#' @inherit plot_cumu note
 #'
 #' @return a ggplot object: depending on the type of data supplied, x-axis
 #'   values are rates of either (a) cumulative surface elevation change or (b)
 #'   vertical accretion. If `level = "station"` (default), the y-axis is station
 #'   codes. If `level = "site"`, the y-axis is site names.
 #'
+#' @seealso \code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}},
+#'   \code{\link{plot_cumu}}
 #' @export
 #'
 #' @import ggplot2

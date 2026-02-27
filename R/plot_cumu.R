@@ -13,41 +13,43 @@
 #'   data frame of raw MH data. See details below for requirements. If both SET
 #'   and MH data are supplied, plots both.
 #'
-#' @param level string (optional). Level at which to calculate rates of surface
-#'   elevation change and/or vertical accretion. One of:
-#'   * `"station"` (default) station-level rates of surface elevation change.
-#'   * `"site"` site-level rates of surface elevation change.
+#' @inheritParams calc_change_cumu
 #'
 #' @param rate_type string (optional); Calculate linear rate of change and
-#'   include in the plot? Use rate_type = `"linear"` to display station- (level
-#'   = `"station"`) or site-level (level = `"site"`) rates of surface elevation
-#'   change or vertical accretion in mm/yr.
+#'   include in the plot? May add other types of model fits at a later date. One
+#'   of:
+#' \itemize{
+#'   \item "linear": use with level = "station" or level = "site" to display station-level or site-level (respectively) linear rates of surface elevation change or vertical accretion in mm/yr.
+#' }
 #'
 #' @param columns integer (optional). Number of columns you want in the faceted
 #'   output; defaults to 4. Utilizes the `ncol` argument of
-#'   [ggplot2::facet_wrap].
+#'   \code{\link[ggplot2]{facet_wrap}}.
 #'
 #' @param pointsize number (optional). Size of points on the plot; defaults to
-#'   3.5. Utilizes the `size` argument of [ggplot2::geom_point].
+#'   3.5. Utilizes the `size` argument of \code{\link[ggplot2]{geom_point}}.
 #'
-#' @param plot_scales string (optional). Do you want axis scales to be the same in
-#'   all facets ("fixed") or to vary between facets? Defaults to using the same
-#'   scale between all panels. Utilizes the `scales` parameter of
-#'   [ggplot2::facet_wrap]. One of:
-#'   * `"fixed"`: default; use the same axis scales in all panels.
-#'   * `"free_x"`: allow x-axis scales to vary between panels.
-#'   * `"free_y"`: allow y-axis scales to vary between panels.
-#'   * `"free"`: allow both x- and y-axis scales to vary between panels.
+#' @param plot_scales string (optional). Do you want axis scales to be the same
+#'   in all facets ("fixed") or to vary between facets? Defaults to using the
+#'   same scale between all panels. Utilizes the `scales` parameter of
+#'   \code{\link[ggplot2]{facet_wrap}}. One of:
+#'   \itemize{
+#'     \item "fixed": default; use the same axis scales in all panels.
+#'     \item "free_x": allow x-axis scales to vary between panels.
+#'     \item "free_y": allow y-axis scales to vary between panels.
+#'     \item "free": allow both x- and y-axis scales to vary between panels.
+#'   }
 #'
 #' @inheritSection calc_change_cumu Data Requirements
 #'
 #' @inheritSection calc_change_cumu Details
 #'
-#' @section Note:
+#' @note Cumulative change is calculated via the function
+#'   \code{\link{calc_change_cumu}} and linear rates of change are calculated
+#'   via the function \code{\link{calc_linear_rates}}. See function
+#'   documentation for details.
 #'
-#'   Cumulative change is calculated via the function [calc_change_cumu] and
-#'   linear rates of change are calculated via the function [calc_linear_rates].
-#' See function documentation for details.
+#' @seealso \code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}}
 #'
 #' @return A ggplot object: x-axis is date; depending on the type of data
 #'   supplied, y-axis is either (a) cumulative surface elevation change and/or

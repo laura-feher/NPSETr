@@ -8,26 +8,28 @@ get_sea_level_data(park, nauset = FALSE, start_year = NULL, end_year = NULL)
 }
 \arguments{
 \item{park}{A string (required). A capitalized four-letter park code. One of:
-* `"ACAD"`: Acadia National Park - gauge 8413320 Bar Harbor, ME.
-* `"BOHA"`: Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
-* `"CACO"`: Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
-* `"FIIS"`: Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
-* `"GATE"`: Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
-* `"NACE"`: National Capital Area East - gauge 8594900 Washington, DC.
-* `"GWMP"`: George Washington Memorial Parkway - gauge 8594900 Washington, DC.
-* `"ASIS"`: Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
-* `"COLO"`: Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
-* `"CAHA"`: Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
-* `"CALO"`: Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
-* `"FOPU"`: Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
-* `"FOFR"`: Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
-* `"CUIS"`: Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
-* `"TIMU"`: Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"FOMA"`: Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"CANA"`: Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
-* `"BISC"`: Biscayne National Park - gauge 8723214 Virginia Key, FL.
-* `"VIIS"`: Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
-* `"SARI"`: Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.}
+\itemize{
+  \item "ACAD": Acadia National Park - gauge 8413320 Bar Harbor, ME.
+  \item "BOHA": Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
+  \item "CACO": Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
+  \item "FIIS": Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
+  \item "GATE": Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
+  \item "NACE": National Capital Area East - gauge 8594900 Washington, DC.
+  \item "GWMP": George Washington Memorial Parkway - gauge 8594900 Washington, DC.
+  \item "ASIS": Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
+  \item "COLO": Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
+  \item "CAHA": Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
+  \item "CALO": Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
+  \item "FOPU": Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
+  \item "FOFR": Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
+  \item "CUIS": Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
+  \item "TIMU": Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "FOMA": Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "CANA": Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
+  \item "BISC": Biscayne National Park - gauge 8723214 Virginia Key, FL.
+  \item "VIIS": Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
+  \item "SARI": Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.
+}}
 
 \item{nauset}{Logical (optional). Used to select the Nauset gauge for CACO;
 defaults to FALSE.}
@@ -46,15 +48,16 @@ A data frame with the relative sea-level data downloaded from the
 }
 \description{
 This function downloads sea-level data for the nearest NOAA tide gauge from
-the tides and currents website (https://tidesandcurrents.noaa.gov/sltrends/).
+the tides and currents website
+(\url{https://tidesandcurrents.noaa.gov/sltrends/}).
 }
 \details{
 Sea-level data is downloaded from the NOAA tides and currents
-  website https://tidesandcurrents.noaa.gov/. Note that monthly mean sea
-  level values are relative to the most recent mean sea-level datum
+  website \url{https://tidesandcurrents.noaa.gov/}. Note that monthly mean
+  sea level values are relative to the most recent mean sea-level datum
   established by CO-OPS
-  (https://tidesandcurrents.noaa.gov/datum_options.html). The column "yr" in
-  the output represents decimal years since the first date.
+  (\url{https://tidesandcurrents.noaa.gov/datum_options.html}). The column
+  "yr" in the output represents decimal years since the first date.
 }
 \examples{
 get_sea_level_data(park = "ASIS")
@@ -63,4 +66,7 @@ get_sea_level_data(park = "CACO", nauset = TRUE)
 
 get_sea_level_data(park = "COLO", start_year = 2008, end_year = 2018)
 
+}
+\seealso{
+\code{\link{get_long_slr_rate}}, \code{\link{get_recent_slr_rate}}
 }

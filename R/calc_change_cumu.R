@@ -9,8 +9,10 @@
 #'
 #' @param level string (optional). Level at which to calculate rates of surface
 #'   elevation change or vertical accretion. One of:
-#'   * `"station"`: (default) station-level rates of surface elevation change.
-#'   * `"site"`: site-level rates of surface elevation change.
+#'   \itemize{
+#'     \item "station": (default) station-level rates of surface elevation change.
+#'     \item "site": site-level rates of surface elevation change.
+#' }
 #'
 #' @param override_site_corrections logical (optional). If TRUE, don't use the
 #'   site groupings specified in utils.R since these are specific to the USGS
@@ -25,12 +27,12 @@
 #'   SET_direction, pin_position, SET_offset_mm, pin_length_mm, and
 #'   pin_height_mm. Note that SET_offset_mm and pin_length_mm can be empty (aka
 #'   blank) but the columns must be included in the data frame. See
-#'   `example_sets`.
+#'   `data(example_sets)`.
 #'
 #'   MH data must have 1 row per core measurement and the following columns,
 #'   named exactly: event_date_UTC, network_code, park_code, site_name,
 #'   marker_horizon_name, core_measurement_number, core_measurement_depth_mm,
-#'   and established_date. See `example_mh`.
+#'   and established_date. See `data(example_mh)`.
 #'
 #' @section Details:
 #'
@@ -58,6 +60,7 @@
 #' @export
 #'
 #' @importFrom tidyr fill
+#' @importFrom tibble add_row
 #'
 #' @examples
 #' # Defaults to station-level cumulative change

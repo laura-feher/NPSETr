@@ -1,8 +1,10 @@
-#' Download/Load raw marker horizon data from the NPS SET data package, NPS SET database, or a saved file
+#' Download/Load raw marker horizon data from the NPS SET data package, NPS SET
+#' database, or a saved file
 #'
-#' This function can be used to download and/or load raw marker
-#' horizon data. Defaults to downloading data from the most recent SET data
-#' package if neither `file_path =` or `db_server =` are specified.
+#' This function can be used to download and/or load raw marker horizon data.
+#' Defaults to downloading data from the most recent SET data package if neither
+#' `file_path =` or `db_server =` are specified. Uses functions from the
+#' \pkg{NPSutils} package to download data packages.
 #'
 #' @inheritParams load_set_data
 #'
@@ -12,9 +14,9 @@
 #'   I&M SET database for the database option to work. Contact Laura Feher
 #'   (lfeher at NPS.gov) for the required connection strings.
 #'
-#' @inheritSection calc_change_cumu Data Requirements
+#' @inherit load_set_data note details
 #'
-#' @inheritSection calc_change_cumu Details
+#' @seealso \code{\link{load_set_data}}
 #'
 #' @export
 #'
