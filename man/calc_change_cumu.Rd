@@ -79,7 +79,7 @@ calc_change_cumu(example_mh, level = "site")
 
 # Define custom groups for calculating cumulative change
 example_sets \%>\%
-    group_by(set_type) \%>\%
+    dplyr::group_by(set_type) \%>\%
     calc_change_cumu(., level = "site")
 
 }

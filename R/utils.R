@@ -191,6 +191,6 @@ noaa_tide_gauges <- function(park, nauset) {
 
 }
 
-.onLoad <- function(libname, pkgname) {
-    data("future_slr_projections_sweet_2022", package = pkgname, envir = parent.env(environment()))
-}
+# .onLoad <- function(libname, pkgname) {
+#     data("future_slr_projections_sweet_2022", package = pkgname, envir = parent.env(environment()))
+# }

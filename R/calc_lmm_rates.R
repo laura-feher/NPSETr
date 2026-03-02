@@ -37,11 +37,11 @@
 #' @export
 #'
 #' @import purrr
-#' @import nlme
 #' @import dplyr
 #' @importFrom performance r2
 #' @importFrom tidyr fill
 #' @importFrom tibble add_row
+#' @importFrom nlme lme
 #'
 #' @examples
 #' # Defaults to station-level rates
@@ -79,7 +79,7 @@ calc_lmm_rates <- function(data, level = "station", override_site_corrections = 
         lmm_rates_set <- data %>%
             # apply proper station groupings for NCBN data
             { if(override_site_corrections == FALSE)
-                mutate(.,site_name = NPSETr::correct_site_groups(station_code = station_code, site_name = site_name))
+                mutate(.,site_name = correct_site_groups(station_code = station_code, site_name = site_name))
 
                 else .} %>%
 
@@ -156,7 +156,7 @@ calc_lmm_rates <- function(data, level = "station", override_site_corrections = 
         lmm_rates_mh <- suppressMessages(data %>%
                                              # apply proper station groupings for NCBN data
                                              { if(override_site_corrections == FALSE)
-                                                 mutate(.,site_name = NPSETr::correct_site_groups(station_code = station_code, site_name = site_name))
+                                                 mutate(.,site_name = correct_site_groups(station_code = station_code, site_name = site_name))
                                                  else .} %>%
 
                                              # first average all core measurements from each date
