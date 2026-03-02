@@ -1,5 +1,5 @@
 Sys.setenv("R_TESTS" = "")
 library(testthat)
-library(SETrNCBN)
+library(NPSETr)
 
-test_check("SETrNCBN")
+test_check("NPSETr")
