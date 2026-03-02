@@ -8,6 +8,7 @@
 #' the decade between 2090 and 2100.
 #'
 #' @inheritParams get_future_sea_level_data
+#'
 #' @param decade number (optional). The end year of the decade for predicted
 #'   future slr rates. Must be a multiple of 10 years (e.g. 2040, 2070, etc.)
 #'   and only works for decades between 2030 to 2150.
@@ -21,9 +22,9 @@
 #'   Probabilities Along U.S. Coastlines. NOAA Technical Report NOS 01. National
 #'   Oceanic and Atmospheric Administration, National Ocean Service, Silver
 #'   Spring, MD, 111 pp.
-#'   https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf
+#'   \url{https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf}
 #'
-#' @seealso [get_future_sea_level_data()]
+#' @seealso \code{\link{get_future_sea_level_data}}
 #'
 #' @returns A data frame with the future predicted sea-level rates (column
 #'   "future_slr_rate" in mm/yr) by the end of the specified 10-year period

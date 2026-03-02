@@ -1,8 +1,10 @@
-#' Download/Load raw SET data from a NPS data package, database, or saved file
+#' Download/Load raw SET data from a NPS data package, NPS SET database, or
+#' saved file
 #'
 #' This function can be used to download and/or load SET data. Defaults to
 #' downloading data from the most recent SET data package if neither `file_path
-#' =` or `db_server =` are specified.
+#' =` or `db_server =` are specified. Uses functions from the \pkg{NPSutils}
+#' package to download data packages.
 #'
 #' @param park string (optional); A 4 character park code (e.g., "ASIS", "GATE")
 #'   that can be used to filter results from the NPS SET data package or NPS SET
@@ -26,15 +28,16 @@
 #' @param db_port number (optional); A port value for accessing the NPS I&M SET
 #'   database back-end.
 #'
-#' @return A data frame of raw SET data.
+#' @note If loading in your own data from csv, see
+#'   \code{\link{calc_change_cumu}} for data requirements.
 #'
 #' @details Note that you must be on VPN and have access to the back-end of NPS
 #'   I&M SET database for the database option to work. Contact Laura Feher
 #'   (lfeher at NPS.gov) for the required connection strings.
 #'
-#' @inheritSection calc_change_cumu Data Requirements
+#' @return A data frame of raw SET data.
 #'
-#' @inheritSection calc_change_cumu Details
+#' @seealso \code{\link{load_mh_data}}
 #'
 #' @export
 #'
@@ -46,7 +49,7 @@
 #' @import stringr
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Download and load raw SET data for ASIS from the most recent data package
 #' df <- load_set_data(park = "ASIS")
 #'
@@ -58,6 +61,7 @@
 #'
 #' # Use `here::here` to load raw SET data from a relative file path
 #' df <- load_set_data(file_path = here::here("Data", "my_SET_data.csv"))
+#' }
 #'
 load_set_data <- function(park = NULL, network_code = NULL, file_path = NULL, db_server = NULL, db_port = NULL){
 

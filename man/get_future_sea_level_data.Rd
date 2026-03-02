@@ -8,26 +8,28 @@ get_future_sea_level_data(park, nauset = FALSE, scenario_percentile = NULL)
 }
 \arguments{
 \item{park}{A string (required). A capitalized four-letter park code. One of:
-* `"ACAD"`: Acadia National Park - gauge 8413320 Bar Harbor, ME.
-* `"BOHA"`: Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
-* `"CACO"`: Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
-* `"FIIS"`: Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
-* `"GATE"`: Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
-* `"NACE"`: National Capital Area East - gauge 8594900 Washington, DC.
-* `"GWMP"`: George Washington Memorial Parkway - gauge 8594900 Washington, DC.
-* `"ASIS"`: Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
-* `"COLO"`: Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
-* `"CAHA"`: Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
-* `"CALO"`: Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
-* `"FOPU"`: Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
-* `"FOFR"`: Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
-* `"CUIS"`: Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
-* `"TIMU"`: Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"FOMA"`: Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
-* `"CANA"`: Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
-* `"BISC"`: Biscayne National Park - gauge 8723214 Virginia Key, FL.
-* `"VIIS"`: Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
-* `"SARI"`: Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.}
+\itemize{
+  \item "ACAD": Acadia National Park - gauge 8413320 Bar Harbor, ME.
+  \item "BOHA": Boston Harbor Islands National Recreation Area - gauge 8443970 Boston, MA.
+  \item "CACO": Cape Cod National Seashore - 8443970 (Boston, MA) or 8449130 for Nauset (Nantucket Island, MA).
+  \item "FIIS": Fire Island National Seashore - gauge 8531680 Sandy Hook, NJ.
+  \item "GATE": Gateway National Recreation Area - gauge 8531680 Sandy Hook, NJ.
+  \item "NACE": National Capital Area East - gauge 8594900 Washington, DC.
+  \item "GWMP": George Washington Memorial Parkway - gauge 8594900 Washington, DC.
+  \item "ASIS": Assateague Island National Seashore - gauge 8570283 (Ocean City Pier, MD) for long-term/recent SLR, gauge 8570280 (Ocean City Inlet, MD) for future SLR .
+  \item "COLO": Colonial National Historical Park - gauge 8638610 Sewells Point, VA.
+  \item "CAHA": Cape Hatteras National Seashore - gauge 8652587 (Oregon Inlet Marina, NC) for long-term/recent SLR, gauge 8654400 (Cape Hatteras, NC) for future SLR.
+  \item "CALO": Cape Lookout National Seashore - gauge 8656483 Beaufort, NC.
+  \item "FOPU": Fort Pulaski National Monument - gauge 8670870 Fort Pulaski, GA.
+  \item "FOFR": Fort Frederica National Monument - gauge 8720030 Fernandina Beach, GA.
+  \item "CUIS": Cumberland Island National Seashore - gauge 8720030 Fernandina Beach, GA.
+  \item "TIMU": Timucuan Ecological and Historic Preserve - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "FOMA": Fort Matanzas National Monument - gauge 8720218 Mayport, FL (Bar Pilots Dock).
+  \item "CANA": Canaveral National Seashore - gauge 8721604 Trident Pier, FL.
+  \item "BISC": Biscayne National Park - gauge 8723214 Virginia Key, FL.
+  \item "VIIS": Virgin Islands National Park - gauge 9751639 Charlotte Amalie, St. Thomas, USVI.
+  \item "SARI": Salt River Bay National Historic Park and Ecological Preserve - gauge 9751401 Lime Tree Bay, St. Croix, USVI.
+}}
 
 \item{nauset}{Logical (optional). Used to select the Nauset gauge for CACO;
 defaults to FALSE.}
@@ -35,8 +37,8 @@ defaults to FALSE.}
 \item{scenario_percentile}{character (optional). For each of the 5 GMSL
 scenarios (identified by the rise amounts in meters by 2100--0.3 m , 0.5 m.
 1.0 m, 1.5 m and 2.0 m), there is a low, medium (med) and high value,
-corresponding to the 17th, 50th, and 83rd percentiles. One of `NULL`
-(default), `"LOW"`, `"MED"`, or `"HIGH"`. The default (`NULL`) returns all
+corresponding to the 17th, 50th, and 83rd percentiles, respectively. One of
+`NULL` (default), "LOW", "MED", or "HIGH". The default (`NULL`) returns all
 percentiles.}
 }
 \value{
@@ -65,5 +67,8 @@ Sweet, W.V., B.D. Hamlington, R.E. Kopp, C.P. Weaver, P.L.
   Probabilities Along U.S. Coastlines. NOAA Technical Report NOS 01. National
   Oceanic and Atmospheric Administration, National Ocean Service, Silver
   Spring, MD, 111 pp.
-  https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf
+  \url{https://oceanservice.noaa.gov/hazards/sealevelrise/noaa-nos-techrpt01-global-regional-SLR-scenarios-US.pdf}
+}
+\seealso{
+\code{\link{get_future_slr_rate}}
 }

@@ -2,7 +2,8 @@
 % Please edit documentation in R/plot_rate_comps.R
 \name{plot_rate_comps}
 \alias{plot_rate_comps}
-\title{Plot comparison of station- or site-level surface elevation change or vertical accretion rates}
+\title{Plot comparison of station- or site-level surface elevation change or
+vertical accretion rates}
 \usage{
 plot_rate_comps(data = NULL, rates = NULL, level = "station")
 }
@@ -13,10 +14,12 @@ details below for requirements.}
 \item{rates}{A data frame (optional). A data frame of station- or site-level
 rates of surface elevation change. See details below for requirements.}
 
-\item{level}{A string (optional). Level at which to calculate rates of
-surface elevation change. One of:
-* `"station"`: (default) station-level rates of surface elevation change.
-* `"site"`: site-level rates of surface elevation change.}
+\item{level}{string (optional). Level at which to calculate rates of surface
+  elevation change or vertical accretion. One of:
+  \itemize{
+    \item "station": (default) station-level rates of surface elevation change.
+    \item "site": site-level rates of surface elevation change.
+}}
 }
 \value{
 a ggplot object: depending on the type of data supplied, x-axis
@@ -26,12 +29,19 @@ a ggplot object: depending on the type of data supplied, x-axis
 }
 \description{
 This function creates a 'TIE fighter' style plot that can be used to visually
-compare station- or site-level linear rates of surface elevation change or vertical accretion.
+compare station- or site-level linear rates of surface elevation change or
+vertical accretion.
 }
 \details{
-Accepts either a data frame of either raw SET or MH data (`data` argument) or a
-data frame of pre-calculated station- or site-level rates of surface
+Accepts either a data frame of either raw SET or MH data (`data` argument) or
+a data frame of pre-calculated station- or site-level rates of surface
 elevation change or vertical accretion (`rates` argument).
+}
+\note{
+Cumulative change is calculated via the function
+  \code{\link{calc_change_cumu}} and linear rates of change are calculated
+  via the function \code{\link{calc_linear_rates}}. See function
+  documentation for details.
 }
 \section{Data Requirements for pre-calculated rates of change}{
 
@@ -64,12 +74,12 @@ elevation change or vertical accretion (`rates` argument).
   SET_direction, pin_position, SET_offset_mm, pin_length_mm, and
   pin_height_mm. Note that SET_offset_mm and pin_length_mm can be empty (aka
   blank) but the columns must be included in the data frame. See
-  `example_sets`.
+  `data(example_sets)`.
 
   MH data must have 1 row per core measurement and the following columns,
   named exactly: event_date_UTC, network_code, park_code, site_name,
   marker_horizon_name, core_measurement_number, core_measurement_depth_mm,
-  and established_date. See `example_mh`.
+  and established_date. See `data(example_mh)`.
 }
 
 \section{Details}{
@@ -93,14 +103,6 @@ elevation change or vertical accretion (`rates` argument).
   the site-level.
 }
 
-\section{Note}{
-
-
-  Cumulative change is calculated via the function [calc_change_cumu] and
-  linear rates of change are calculated via the function [calc_linear_rates].
-See function documentation for details.
-}
-
 \examples{
 
 # Default plot gives station-level rates
@@ -116,4 +118,8 @@ plot_rate_comps(rates = example_rates)
 # Site-level rates
 plot_rate_comps(data = example_sets, level = "site")
 
+}
+\seealso{
+\code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}},
+  \code{\link{plot_cumu}}
 }

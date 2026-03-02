@@ -33,7 +33,7 @@
 #'   \item{station_code}{chr; station code}
 #'   \item{marker_horizon_name}{chr; marker horizon replicate name}
 #'   \item{core_measurement_number}{dbl; number of the measurement taken from a single core}
-#'   \item{core_measurement_depth}{dbl; measured depth to the marker horizon in mm}
+#'   \item{core_measurement_depth_mm}{dbl; measured depth to the marker horizon in mm}
 #'   \item{established_date}{Date UTC; date that the marker horizon plot was established, yyyy-mm-dd format}
 #' }
 "example_mh"

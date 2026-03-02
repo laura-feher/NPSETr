@@ -3,14 +3,14 @@
 #'
 #' This function downloads the current "long-term" rate of sea-level rise
 #' published on the NOAA tides and currents website for the nearest tide gauge
-#' (https://tidesandcurrents.noaa.gov/sltrends/).
+#' (\url{https://tidesandcurrents.noaa.gov/sltrends/}).
 #'
 #' @inheritParams get_sea_level_data
 #'
 #' @details Rates of sea-level rise reported by NOAA are (generally) updated on
-#'   an regular basis. The rates of sea-level rise (here referred to as the
+#'   a regular basis. The rates of sea-level rise (here referred to as the
 #'   long-term rate) are based on the entire period of record for each NOAA
-#'   gauge, however, the gauges vary signficantly in age and therefore this
+#'   gauge, however, the gauges vary significantly in age and therefore this
 #'   "long-term" rate may be based on a relatively short time period for some
 #'   gauges. For example, the Ocean City MD gauge was installed in 1975 and thus
 #'   the period of record for the gauge is 1975 - present (50 years in 2025), in
@@ -23,6 +23,8 @@
 #' @import dplyr
 #' @import stringr
 #' @importFrom readr read_csv
+#'
+#' @seealso \code{\link{get_recent_slr_rate}}, \code{\link{get_sea_level_data}}
 #'
 #' @export
 #'

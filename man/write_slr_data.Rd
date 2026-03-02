@@ -13,7 +13,7 @@ write_slr_data(
 }
 \arguments{
 \item{data}{list. Specifically a list of 2 data frames produced by
-`get_sea_level_data`.}
+\code{\link{get_sea_level_data}}.}
 
 \item{dest_folder}{string (optional). The folder where you want the file to
 be saved. Defaults to the current working directory.}
@@ -31,7 +31,7 @@ Saves the SLR data and calculated SLR rate to two separate csv
   "asis_slr_data_2025-06-05.csv" and "asis_slr_rate_2025-06-05.csv".
 }
 \description{
-This function saves a data frame produced by `get_sea_level_data`. Creates
+This function saves a data frame produced by \code{\link{get_sea_level_data}}. Creates
 one csv file containing the sea-level data and another csv file containing
 the calculated rate of sea-level rise.
 }
@@ -49,4 +49,7 @@ write_slr_data(
     )
 }
 
+}
+\seealso{
+\code{\link{get_sea_level_data}}
 }

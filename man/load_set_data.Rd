@@ -2,7 +2,8 @@
 % Please edit documentation in R/load_set_data.R
 \name{load_set_data}
 \alias{load_set_data}
-\title{Download/Load raw SET data from a NPS data package, database, or saved file}
+\title{Download/Load raw SET data from a NPS data package, NPS SET database, or
+saved file}
 \usage{
 load_set_data(
   park = NULL,
@@ -41,54 +42,20 @@ A data frame of raw SET data.
 \description{
 This function can be used to download and/or load SET data. Defaults to
 downloading data from the most recent SET data package if neither `file_path
-=` or `db_server =` are specified.
+=` or `db_server =` are specified. Uses functions from the \pkg{NPSutils}
+package to download data packages.
 }
 \details{
 Note that you must be on VPN and have access to the back-end of NPS
   I&M SET database for the database option to work. Contact Laura Feher
   (lfeher at NPS.gov) for the required connection strings.
 }
-\section{Data Requirements}{
-
-
-  This function takes a data frame of either raw SET or MH data (`data`).
-
-  SET data must have 1 row per pin reading and the following columns, named
-  exactly: event_date_UTC, network_code, park_code, site_name, station_code,
-  SET_direction, pin_position, SET_offset_mm, pin_length_mm, and
-  pin_height_mm. Note that SET_offset_mm and pin_length_mm can be empty (aka
-  blank) but the columns must be included in the data frame. See
-  `example_sets`.
-
-  MH data must have 1 row per core measurement and the following columns,
-  named exactly: event_date_UTC, network_code, park_code, site_name,
-  marker_horizon_name, core_measurement_number, core_measurement_depth_mm,
-  and established_date. See `example_mh`.
+\note{
+If loading in your own data from csv, see
+  \code{\link{calc_change_cumu}} for data requirements.
 }
-
-\section{Details}{
-
-
-  For SET data, pin-level cumulative change is first calculated as the
-  difference between each pin reading and the reading from the earliest date
-  that was not NA. Note that for data from NCBN, NCRN, and NETN, pin heights
-  are first converted to standardized pin heights using the formula 1000 +
-  (SET_offset_mm - (pin_length_mm - pin_height_mm)) to account for the 6"
-  extensions that were added to some benchmarks within these networks' parks
-  in 2023/24. Then, cumulative pin changes are averaged to the arm-level on
-  each date, and then the cumulative arm-level changes are averaged up to the
-  station-level on each date. If level = "site" is used, station-level
-  cumulative change will be averaged up to the site-level.
-
-  For MH data, duplicate core readings ('core_measurement_number') are first
-  averaged to the marker horizon-level. Then, average marker horizon depths
-  are averaged up to the station-level on each date, excluding NAs. If level
-  = "site" is used, station-level cumulative change will be averaged up to
-  the site-level.
-}
-
 \examples{
-
+\dontrun{
 # Download and load raw SET data for ASIS from the most recent data package
 df <- load_set_data(park = "ASIS")
 
@@ -100,5 +67,9 @@ df <- load_set_data(file_path = "C:/Documents/Data/my_SET_data.csv")
 
 # Use `here::here` to load raw SET data from a relative file path
 df <- load_set_data(file_path = here::here("Data", "my_SET_data.csv"))
+}
 
+}
+\seealso{
+\code{\link{load_mh_data}}
 }

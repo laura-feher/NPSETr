@@ -25,30 +25,36 @@ data frame of raw MH data. See details below for requirements. If both SET
 and MH data are supplied, plots both.}
 
 \item{level}{string (optional). Level at which to calculate rates of surface
-elevation change and/or vertical accretion. One of:
-* `"station"` (default) station-level rates of surface elevation change.
-* `"site"` site-level rates of surface elevation change.}
+  elevation change or vertical accretion. One of:
+  \itemize{
+    \item "station": (default) station-level rates of surface elevation change.
+    \item "site": site-level rates of surface elevation change.
+}}
 
 \item{rate_type}{string (optional); Calculate linear rate of change and
-include in the plot? Use rate_type = `"linear"` to display station- (level
-= `"station"`) or site-level (level = `"site"`) rates of surface elevation
-change or vertical accretion in mm/yr.}
+  include in the plot? May add other types of model fits at a later date. One
+  of:
+\itemize{
+  \item "linear": use with level = "station" or level = "site" to display station-level or site-level (respectively) linear rates of surface elevation change or vertical accretion in mm/yr.
+}}
 
 \item{columns}{integer (optional). Number of columns you want in the faceted
 output; defaults to 4. Utilizes the `ncol` argument of
-[ggplot2::facet_wrap].}
+\code{\link[ggplot2]{facet_wrap}}.}
 
 \item{pointsize}{number (optional). Size of points on the plot; defaults to
-3.5. Utilizes the `size` argument of [ggplot2::geom_point].}
+3.5. Utilizes the `size` argument of \code{\link[ggplot2]{geom_point}}.}
 
-\item{plot_scales}{string (optional). Do you want axis scales to be the same in
-all facets ("fixed") or to vary between facets? Defaults to using the same
-scale between all panels. Utilizes the `scales` parameter of
-[ggplot2::facet_wrap]. One of:
-* `"fixed"`: default; use the same axis scales in all panels.
-* `"free_x"`: allow x-axis scales to vary between panels.
-* `"free_y"`: allow y-axis scales to vary between panels.
-* `"free"`: allow both x- and y-axis scales to vary between panels.}
+\item{plot_scales}{string (optional). Do you want axis scales to be the same
+in all facets ("fixed") or to vary between facets? Defaults to using the
+same scale between all panels. Utilizes the `scales` parameter of
+\code{\link[ggplot2]{facet_wrap}}. One of:
+\itemize{
+  \item "fixed": default; use the same axis scales in all panels.
+  \item "free_x": allow x-axis scales to vary between panels.
+  \item "free_y": allow y-axis scales to vary between panels.
+  \item "free": allow both x- and y-axis scales to vary between panels.
+}}
 }
 \value{
 A ggplot object: x-axis is date; depending on the type of data
@@ -62,14 +68,12 @@ Creates a faceted plot of cumulative surface elevation change and/or vertical
 accretion at each station or site. Optionally calculates and displays linear
 rates of change.
 }
-\section{Note}{
-
-
-  Cumulative change is calculated via the function [calc_change_cumu] and
-  linear rates of change are calculated via the function [calc_linear_rates].
-See function documentation for details.
+\note{
+Cumulative change is calculated via the function
+  \code{\link{calc_change_cumu}} and linear rates of change are calculated
+  via the function \code{\link{calc_linear_rates}}. See function
+  documentation for details.
 }
-
 \section{Data Requirements}{
 
 
@@ -80,12 +84,12 @@ See function documentation for details.
   SET_direction, pin_position, SET_offset_mm, pin_length_mm, and
   pin_height_mm. Note that SET_offset_mm and pin_length_mm can be empty (aka
   blank) but the columns must be included in the data frame. See
-  `example_sets`.
+  `data(example_sets)`.
 
   MH data must have 1 row per core measurement and the following columns,
   named exactly: event_date_UTC, network_code, park_code, site_name,
   marker_horizon_name, core_measurement_number, core_measurement_depth_mm,
-  and established_date. See `example_mh`.
+  and established_date. See `data(example_mh)`.
 }
 
 \section{Details}{
@@ -136,4 +140,7 @@ plot_cumu(SET_data = example_sets) +
         axis.text = element_text(color = "red")
         )
 
+}
+\seealso{
+\code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}}
 }

@@ -1,14 +1,17 @@
-#' Save raw SET/MH data, cumulative change, or linear rates of change to a csv file
+#' Save raw SET/MH data, cumulative change, or linear rates of change to a csv
+#' file
 #'
-#' This function saves a data frame to a csv file. Can be a data frame of
-#' raw SET/MH data produced by `load_set_data` or `load_mh_data`, a data frame
-#' of cumulative change produced by `calc_change_cumu`, or a data frame of
-#' calculated linear rates produced by `calc_linear_rates`.
+#' This function saves a data frame to a csv file. Can be a data frame of raw
+#' SET/MH data produced by \code{\link{load_set_data}} or
+#' \code{\link{load_mh_data}}, a data frame of cumulative change produced by
+#' \code{\link{calc_change_cumu}}, or a data frame of calculated linear rates
+#' produced by \code{\link{calc_linear_rates}}.
 #'
 #' @param data data frame. Can be a data frame of raw SET/MH data produced by
-#'   `load_set_data` or `load_mh_data`, a data frame of cumulative change
-#'   produced by `calc_change_cumu`, or a data frame of calculated linear rates
-#'   produced by `calc_linear_rates`.
+#'   \code{\link{load_set_data}} or \code{\link{load_mh_data}}, a data frame of
+#'   cumulative change produced by \code{\link{calc_change_cumu}}, or a data
+#'   frame of calculated linear rates produced by
+#'   \code{\link{calc_linear_rates}}.
 #'
 #' @param dest_folder string (optional). The folder where you want the file to
 #'   be saved. Defaults to the current working directory.
@@ -22,6 +25,9 @@
 #' @returns Saves a data frame to a csv. The file name will be the name of the
 #'   data frame supplied to `data` suffixed with the current date e.g.
 #'   "colo_set_data_2025-06-04.csv".
+#'
+#' @seealso \code{\link{load_set_data}}, \code{\link{load_mh_data}},
+#'   \code{\link{calc_change_cumu}}, \code{\link{calc_linear_rates}}
 #'
 #' @export
 #'

@@ -1,3 +1,9 @@
+# NPSETr 1.1.0
+
+* ✨ Added functions for linear mixed models, GAMs, and GAMMs
+* 🎨 Minor revisions to code format/structure as suggested by JP Schmit and Charlie Wainright
+* 📝 Polished documentation
+
 # NPSETr 1.0.0
 
 * Added a `NEWS.md` file to track changes to the package.  

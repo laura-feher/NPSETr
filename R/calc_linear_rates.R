@@ -17,7 +17,9 @@
 #'
 #' @note Stations with fewer than 3 measurement dates are excluded from the
 #'   calculation of rates. Cumulative change is calculated via the function
-#'   [calc_change_cumu] - see function documentation for details.
+#'   \code{\link{calc_change_cumu}} - see function documentation for details.
+#'
+#' @seealso \code{\link{calc_change_cumu}}
 #'
 #' @export
 #'
@@ -40,7 +42,7 @@
 #' ## Exclude data from after 2016 from calculations of linear rates
 #' example_sets %>%
 #'     filter(event_date_UTC < as.Date("2016-01-01")) %>%
-#'     calc_change_cumu(., level = "station")
+#'     calc_linear_rates(., level = "station")
 #'
 #' ## Define custom groups for calculating linear rates
 #' example_sets %>%
@@ -50,7 +52,7 @@
 calc_linear_rates <- function(data, level = "station", override_site_corrections = FALSE){
 
     # determine if the data is SET or MH
-    data_type <- NPSETr::detect_data_type(data)
+    data_type <- detect_data_type(data)
 
     if (data_type != "SET" & data_type != "MH") {
         stop(paste0("Data must be either valid SET or MH data. See 'data requirements' in the documentation for `calc_change_cumu()`."))
@@ -59,16 +61,16 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
         # use linear regression to get a rate of change for each station
         linear_rates_set <- {if (level == "station")
         { if(override_site_corrections == FALSE)
-            NPSETr::calc_change_cumu(data, level = "station")
+            calc_change_cumu(data, level = "station")
             else
-                NPSETr::calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>% # first calculate cumulative change for each station
+                calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>% # first calculate cumulative change for each station
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
 
             else if (level == "site")
             { if(override_site_corrections == FALSE)
-                NPSETr::calc_change_cumu(data, level = "site")
+                calc_change_cumu(data, level = "site")
                 else
-                    NPSETr::calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
+                    calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 
@@ -120,15 +122,15 @@ calc_linear_rates <- function(data, level = "station", override_site_corrections
         # first calculate cumulative change for each station
         linear_rates_mh <- {if (level == "station")
         { if(override_site_corrections == FALSE)
-            NPSETr::calc_change_cumu(data, level = "station")
+            calc_change_cumu(data, level = "station")
             else
-                NPSETr::calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>%
+                calc_change_cumu(data, level = "station", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, station_code, .add = TRUE)
             else if (level == "site")
             { if(override_site_corrections == FALSE)
-                NPSETr::calc_change_cumu(data, level = "site")
+                calc_change_cumu(data, level = "site")
                 else
-                    NPSETr::calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
+                   calc_change_cumu(data, level = "site", override_site_corrections = TRUE)} %>%
                 group_by(., network_code, park_code, site_name, .add = TRUE)
         } %>%
 

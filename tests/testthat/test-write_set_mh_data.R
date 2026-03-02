@@ -5,7 +5,7 @@ test_that("error about creating folders shows", {
 
 test_that("error about overwriting data shows", {
     df <- readRDS(test_path("testdata", "df_2025-06-04.rds"))
-    expect_error(write_set_mh_data(df, dest_folder = "C:/Users/lfeher/OneDrive - DOI/NCBN SETr/NPSETr/tests/testthat/testdata"), "Saving data in the folder provided would overwrite existing data. To automatically overwrite existing data, set overwrite to TRUE.")
+    expect_error(write_set_mh_data(df, dest_folder = "C:/Users/lfeher/OneDrive - DOI/NPSETr/tests/testthat/testdata"), "Saving data in the folder provided would overwrite existing data. To automatically overwrite existing data, set overwrite to TRUE.")
 })
 
 test_that("writes a data frame of raw SET data to csv in the specified destination folder", {
