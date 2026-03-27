@@ -56,6 +56,7 @@
 #' @import dplyr
 #' @import purrr
 #' @importFrom readr read_csv
+#' @importFrom readr with_edition
 #' @importFrom tidyr nest
 #'
 #' @examples
@@ -69,8 +70,8 @@ get_sea_level_data <- function (park, nauset = FALSE, start_year = NULL, end_yea
 
     noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
 
-    suppressWarnings(dat <- as.data.frame(readr::read_csv(paste0("https://tidesandcurrents.noaa.gov/sltrends/data/", noaa_ids$station_num, "_meantrend.csv"),
-                                         skip = 5, show_col_types = FALSE)))
+    suppressWarnings(dat <- as.data.frame(readr::with_edition(1, readr::read_csv(paste0("https://tidesandcurrents.noaa.gov/sltrends/data/", noaa_ids$station_num, "_meantrend.csv"),
+                                         skip = 5, show_col_types = FALSE))))
 
     data <- dat %>%
         mutate(date = as.Date(paste0(Month, "/", "1/", Year), format = "%m/%d/%Y")) %>%
