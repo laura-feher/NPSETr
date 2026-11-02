@@ -1,6 +1,16 @@
 #' Calculate a park-specific recent rate of sea-level rise using sea-level data
 #' from the nearest NOAA tide gauge.
 #'
+#' @description `r lifecycle::badge("deprecated")
+#'
+#' `get_recent_slr_rate()` was deprecated in version 1.1.0 because NOAA no
+#' longer provides long-term SLR data or rates as of Nov. 2026. Thus it is no
+#' longer possible to calculate recent rates of SLR based on a user supplied
+#' time-frame. Long-term rates that were calculated using the entire period of
+#' record for each station have been replaced by rates that are calculated over
+#' the current "National Tidal Datum Epoch aka NTDE. Please use
+#' [get_noaa_slr_rate()] instead.
+#'
 #' This function downloads sea-level data for the nearest NOAA tide gauge from
 #' the tides and currents website
 #' (\url{https://tidesandcurrents.noaa.gov/sltrends/}) and then calculates a
@@ -43,10 +53,11 @@
 #'   Wildlife Service: Mississippi-Alabama Sea Grant Consortium,
 #'   (\url{https://placeslr.org/our-products/federally-managed-lands-two-pagers/})
 #'
-#' @seealso \code{\link{get_sea_level_data}}
+#' @seealso \code{\link{get_noaa_slr_rate}}, \code{\link{get_sea_level_data}}
 #'
 #' @import broom.mixed
 #' @import tidyr
+#' @import lifecycle
 #' @importFrom readr read_csv
 #' @importFrom nlme gls
 #' @importFrom nlme corAR1
@@ -58,21 +69,33 @@
 #' @examples
 #' get_recent_slr_rate(park = "ASIS")
 #'
+#' @keywords internal
 get_recent_slr_rate <- function(park, nauset = FALSE, start_year = 2001, end_year = 2019) {
 
-    slr_data <- get_sea_level_data(park = park, nauset = nauset, start_year = start_year, end_year = end_year)
+    # Deprecated because NOAA no longer provides long-term SLR data as of Nov.
+    # 2026, so there is no way to calculate a 'recent rate' from your own time
+    # period.
+    lifecycle::deprecate_warn(
+        when = "1.1.0",
+        what = "get_recent_slr_rate()",
+        with = "get_noaa_slr_rate()"
+    )
 
-    suppressWarnings(data <- slr_data %>%
-        group_by(park_code, station_num) %>%
-        tidyr::nest(data = everything(.)) %>%
-        mutate(gls_mod = purrr::map(data, ~nlme::gls(Monthly_MSL_mm ~ yr, data = .x, correlation = nlme::corAR1())),
-               tidied = purrr::map(gls_mod, broom.mixed::tidy),
-               glanced = purrr::map(gls_mod, broom.mixed::glance),
-               int = purrr::map(gls_mod, ~nlme::intervals(.x, levels = 0.95))) %>%
-        tidyr::unnest(tidied, glanced) %>%
-        mutate(object_type = "recent slr rate",
-               confint = estimate - int[[1]][[1]][[2]]))
+    get_noaa_slr_rate(park, nauset)
 
-    return(data)
+    # slr_data <- get_sea_level_data(park = park, nauset = nauset, start_year = start_year, end_year = end_year)
+    #
+    # suppressWarnings(data <- slr_data %>%
+    #     group_by(park_code, station_num) %>%
+    #     tidyr::nest(data = everything(.)) %>%
+    #     mutate(gls_mod = purrr::map(data, ~nlme::gls(Monthly_MSL_mm ~ yr, data = .x, correlation = nlme::corAR1())),
+    #            tidied = purrr::map(gls_mod, broom.mixed::tidy),
+    #            glanced = purrr::map(gls_mod, broom.mixed::glance),
+    #            int = purrr::map(gls_mod, ~nlme::intervals(.x, levels = 0.95))) %>%
+    #     tidyr::unnest(tidied, glanced) %>%
+    #     mutate(object_type = "recent slr rate",
+    #            confint = estimate - int[[1]][[1]][[2]]))
+    #
+    # return(data)
 }
 

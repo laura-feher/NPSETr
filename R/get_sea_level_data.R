@@ -55,6 +55,7 @@
 #'
 #' @import dplyr
 #' @import purrr
+#' @import lifecycle
 #' @importFrom readr read_csv
 #' @importFrom readr with_edition
 #' @importFrom tidyr nest
@@ -68,27 +69,28 @@
 #'
 get_sea_level_data <- function (park, nauset = FALSE, start_year = NULL, end_year = NULL){
 
-    noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
-
-    suppressWarnings(dat <- as.data.frame(readr::with_edition(1, readr::read_csv(paste0("https://tidesandcurrents.noaa.gov/sltrends/data/", noaa_ids$station_num, "_meantrend.csv"),
-                                         skip = 5, show_col_types = FALSE))))
-
-    data <- dat %>%
-        mutate(date = as.Date(paste0(Month, "/", "1/", Year), format = "%m/%d/%Y")) %>%
-        {if (!is.null(start_year) & is.null(end_year))
-            filter(., Year >= start_year)
-            else if(!is.null(end_year) & is.null(start_year))
-                filter(., Year <= end_year)
-            else if(!is.null(start_year) & !is.null(end_year))
-                filter(., Year >= start_year & Year <= end_year)
-            else .} %>%
-        mutate(.,
-               park_code = park,
-               station_num = noaa_ids$station_num,
-               yr = as.numeric(date - min(date))/365.25,
-               object_type = "sea level data",
-               across(c(Monthly_MSL, Linear_Trend, High_Conf., Low_Conf.), ~.x * 1000, .names = "{.col}_mm")) %>% # convert to millimeters for comparisons to SET/MH data
-        select(park_code, station_num, Year, Month, date, yr, Monthly_MSL_mm, Linear_Trend_mm, High_Conf._mm, Low_Conf._mm, object_type)
-
-    return(data)
+    # Old version of function was retired because NOAA no longer provides long-term SLR rates as of Nov. 2026
+    # noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
+    #
+    # suppressWarnings(dat <- as.data.frame(readr::with_edition(1, readr::read_csv(paste0("https://tidesandcurrents.noaa.gov/sltrends/data/", noaa_ids$station_num, "_meantrend.csv"),
+    #                                      skip = 5, show_col_types = FALSE))))
+    #
+    # data <- dat %>%
+    #     mutate(date = as.Date(paste0(Month, "/", "1/", Year), format = "%m/%d/%Y")) %>%
+    #     {if (!is.null(start_year) & is.null(end_year))
+    #         filter(., Year >= start_year)
+    #         else if(!is.null(end_year) & is.null(start_year))
+    #             filter(., Year <= end_year)
+    #         else if(!is.null(start_year) & !is.null(end_year))
+    #             filter(., Year >= start_year & Year <= end_year)
+    #         else .} %>%
+    #     mutate(.,
+    #            park_code = park,
+    #            station_num = noaa_ids$station_num,
+    #            yr = as.numeric(date - min(date))/365.25,
+    #            object_type = "sea level data",
+    #            across(c(Monthly_MSL, Linear_Trend, High_Conf., Low_Conf.), ~.x * 1000, .names = "{.col}_mm")) %>% # convert to millimeters for comparisons to SET/MH data
+    #     select(park_code, station_num, Year, Month, date, yr, Monthly_MSL_mm, Linear_Trend_mm, High_Conf._mm, Low_Conf._mm, object_type)
+    #
+    # return(data)
 }
