@@ -1,6 +1,14 @@
 #' Get the current park-specific "long-term" rate of sea-level rise published by
 #' NOAA tides and currents
 #'
+#' @description `r lifecycle::badge("deprecated")`
+#'
+#' `get_long_slr_rate()` was deprecated in version 1.1.0 because NOAA no longer
+#' provides long-term SLR data or rates as of Nov. 2026. Long-term rates that
+#' were calculated using the entire period of record for each station have been
+#' replaced by rates that are calculated over the current "National Tidal Datum
+#' Epoch aka NTDE. Please use [get_noaa_slr_rate()] instead.
+#'
 #' This function downloads the current "long-term" rate of sea-level rise
 #' published on the NOAA tides and currents website for the nearest tide gauge
 #' (\url{https://tidesandcurrents.noaa.gov/sltrends/}).
@@ -22,24 +30,35 @@
 #'
 #' @import dplyr
 #' @import stringr
+#' @import lifecycle
 #' @importFrom readr read_csv
 #'
-#' @seealso \code{\link{get_recent_slr_rate}}, \code{\link{get_sea_level_data}}
+#' @seealso \code{\link{get_noaa_slr_rate}}, \code{\link{get_sea_level_data}}
 #'
 #' @export
 #'
 #' @examples
 #' get_long_slr_rate(park = "ASIS")
 #'
+#' @keywords internal
 get_long_slr_rate <- function(park, nauset = FALSE) {
 
-    noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
+    # Deprecated because NOAA no longer provides long-term SLR rates as of Nov. 2026
+    lifecycle::deprecate_warn(
+        when = "1.1.0",
+        what = "get_long_slr_rate()",
+        with = "get_noaa_slr_rate()"
+    )
 
-    data <- as.data.frame(readr::read_csv("https://tidesandcurrents.noaa.gov/sltrends/data/USStationsLinearSeaLevelTrends.csv", show_col_types = FALSE, name_repair = make.names)) %>%
-        rename_with(., ~stringr::str_replace_all(.x, "\\.{2,}", ".")) %>%
-        rename_with(., ~stringr::str_replace_all(.x, "X", "Perc")) %>%
-        filter(Station.ID == noaa_ids$station_num) %>%
-        mutate(object_type = "long term slr rate")
+    get_noaa_slr_rate(park, nauset)
 
-    return(data)
+    # noaa_ids <- noaa_tide_gauges(park = park, nauset = nauset)
+    #
+    # data <- as.data.frame(readr::read_csv("https://tidesandcurrents.noaa.gov/sltrends/data/USStationsLinearSeaLevelTrends.csv", show_col_types = FALSE, name_repair = make.names)) %>%
+    #     rename_with(., ~stringr::str_replace_all(.x, "\\.{2,}", ".")) %>%
+    #     rename_with(., ~stringr::str_replace_all(.x, "X", "Perc")) %>%
+    #     filter(Station.ID == noaa_ids$station_num) %>%
+    #     mutate(object_type = "long term slr rate")
+    #
+    # return(data)
 }

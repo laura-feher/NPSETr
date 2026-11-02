@@ -228,10 +228,7 @@ There are 5 functions for getting current/predicted future sea-level data and ra
 NPSETr::get_sea_level_data("ASIS") %>%
     head(2)
 
-NPSETr::get_long_slr_rate("ASIS") %>%
-    head(2)
-
-NPSETr::get_recent_slr_rate("ASIS") %>%
+NPSETr::get_noaa_slr_rate("ASIS") %>%
     head(2)
 
 NPSETr::get_future_sea_level_data("ASIS") %>%
